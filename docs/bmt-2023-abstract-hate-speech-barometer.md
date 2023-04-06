@@ -12,7 +12,7 @@ yet easily accessible infrastructure to build their own hate speech detection pi
 We aim to provide an example of such an infrastructure that can serve as a template for other researchers.
 The infrastructure we present is based on the latest machine learning technologies available in the R environment:
 The Tidymodels framework and its extension Tidytext,
-project management approach are the building blocks of our proposed infrastructure.
+plus the Targets project management approach, are the building blocks of our proposed infrastructure.
 In short, our data pipeline starts with downloading and preprocessing tweets, using various methods to convert text into numerical information. We then apply state-of-the-art supervised machine learning pipelines, drawing on a range of learning algorithms and incorporating new tuning capabilities.
 The focus of this paper is to explain the setup and rationale of the infrastructure.
 Our infrastructure is freely available on Github at https://github.com/sebastiansauer/hate-speech-barometer.
