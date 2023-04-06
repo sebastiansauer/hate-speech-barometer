@@ -1,0 +1,26 @@
+default:
+  n_tokens: 10
+  n_rows: 100
+  v_folds: 2   
+  n_repeats: 1 
+  verbose: TRUE
+  tinyfy: TRUE
+  
+dev:
+  n_tokens: 10
+  n_rows: 100
+  v_folds: 2   
+  n_repeats: 1 
+  verbose: TRUE
+  tinyfy: TRUE
+  
+production:
+  n_tokens: 1e3
+  n_rows: Inf
+  v_folds: 10
+  n_repeats: 2
+  verbose: FALSE
+  tinyfy: FALSE
+  
+  
+  
