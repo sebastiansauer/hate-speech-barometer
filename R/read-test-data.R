@@ -1,4 +1,4 @@
-read_test_data <- function(path_to_data = "data-raw/GermEval-2018-Data-master/germeval2018.test.txt") {
+read_test_data <- function(path_to_data = path$data_test) {
   
   d <- data_read(path_to_data, header = FALSE, quote = "")
   

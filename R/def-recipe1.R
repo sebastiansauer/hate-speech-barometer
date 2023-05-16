@@ -1,6 +1,6 @@
 def_recipe <- function(data_train) {
   
-  config::get()
+  # config::get()
   
   n_tokens <- config$n_tokens
   

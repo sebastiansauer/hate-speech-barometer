@@ -1,4 +1,4 @@
-read_train_data <- function(path_to_data = "data-raw/GermEval-2018-Data-master/germeval2018.training.txt") {
+read_train_data <- function(path_to_data = path$data_train) {
   
   d <- data_read(path_to_data, header = FALSE, quote = "")
   

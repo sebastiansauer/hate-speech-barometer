@@ -1,0 +1,18 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+config|object|ebb4e95873187d70|||||||||||||||
+constants|stem|55a33aab6feb6190|b20b573111c9eab9|6b465fa469ac7bd3|680924664||t19493.5136956607s|d3c04794784e4c77|239|rds|local|vector|||0||
+data_test|stem|b4d090aaa05992eb|79f93d0eebb3496c|5e33e44af09086bf|1601128090||t19493.5136965404s|09d99263917dcb26|200601|rds|local|vector|||0.009||
+data_train|stem|179e8d255e557e9a|087aa59d7570e0da|d34cc4a9b2b69fd5|601332319||t19493.5136955681s|6b197f9cedf359e9|336817|rds|local|vector|||0.011||
+def_model1|function|5f49d46e5d2d592e|||||||||||||||
+def_recipe|function|eee9926d3fd57ad5|||||||||||||||
+def_recipe2|function|a13c3c4d2f30eda1|||||||||||||||
+model1|stem|3d321ee65a2e23b9|31a840692445442f|7c9e5d4f299fd69b|-2049561030||t19493.5136941329s|d3e83d604f91dd7a|310|rds|local|vector|||3.698||
+path|object|8d7b1eb347a3f612|||||||||||||||
+read_test_data|function|43b2ed8ccd341faa|||||||||||||||
+read_train_data|function|dc7c977e8c8a286e|||||||||||||||
+recipe1|stem|9c54549aa7be4131|28cae3337b0acf29|26f70a1c76db6ab3|1578298187||t19493.513705059s|631e9052ecff130d|3176339|rds|local|vector|||0.083||
+recipe2|stem|ac86a096c2b3b3f9|3ab4ee5786f37230|e3e46d94c3c24d91|1810695935||t19493.5137242724s|cd9912e952523033|6075969|rds|local|vector|||0.444||
+set_autoplot|stem||e969d87ed6f8627b|b152c3b166e052fc|-1073672494||t19493.5138189098s||0|rds|local|vector|||0.227||1m22m36mℹ39m In argument metrics  purrrmapresult, collect_metrics, summarize   summarize.1mCaused by error in purrrmap22m1m22m36mℹ39m In index 2.1mCaused by error in estimate_tune_results22m33m39m All models failed. Run show_notes.Last.tune.result for more information.
+set_constants|function|28d094714c1bc53b|||||||||||||||
+set_fit|stem|0b24942a0509f802|3a5626ba08479320|eefc8e97742549d2|1382439278||t19493.5138165426s|6a605a304a1e3ebd|12153372|rds|local|vector|||3.591|All models failed. Run show_notes.Last.tune.result for more information.. Unknown or uninitialised column .notes.|
+wf_set|stem|12e5d2bb83b16e82|d830b010e38bd667|07bc579de92e9e7b|-135159059||t19493.5137465413s|c2b709a8b5701c1c|9255274|rds|local|vector|||0.041||

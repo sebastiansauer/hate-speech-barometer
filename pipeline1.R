@@ -4,7 +4,9 @@ library(targets)
 
 config <- config::get()
 
+
 #source funs:
+source("R/set-constants.R")
 source("R/def-recipe.R")
 source("R/def-recipe2.R")
 source("R/read-train-data.R")
@@ -27,9 +29,10 @@ tar_option_set(packages = c("readr",
 
 # Definition der Pipeline:
 list(
+  tar_target(constants, set_constants()),
   tar_target(data_train, read_train_data()),
   tar_target(data_test, read_test_data()), 
-  tar_target(recipe1, def_recipe(data_train)),
+  tar_target(recipe1, def_recipe1(data_train)),
   tar_target(recipe2, def_recipe2(data_train)),
   tar_target(model1, def_model1()),
   tar_target(wf_set,
@@ -38,7 +41,7 @@ list(
   tar_target(set_fit,
              workflow_map(wf_set,
                           fn = "tune_grid",
-                          grid = 2,
+                          grid = config$n_grid,
                           resamples = vfold_cv(data_train, 
                                                v = config$v_folds, 
                                                repeats = config$n_repeats,

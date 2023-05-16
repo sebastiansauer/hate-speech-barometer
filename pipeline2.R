@@ -10,6 +10,7 @@ library(future.callr)
 config <- config::get()
 
 #source funs:
+source("R/set-constants.R")
 source("R/def-recipes.R")
 source("R/read-tweets.R")
 source("R/helper-funs.R")
@@ -17,7 +18,7 @@ source("R/senti.R")
 source("R/senti-score-tab.R")
 source("R/senti-tab-plot.R")
 
-tweets_data_path <- "/Users/sebastiansaueruser/github-repos/hate-speech/data-raw/tweets"
+#tweets_data_path <- "/Users/sebastiansaueruser/github-repos/hate-speech/data-raw/tweets"
 
 
 # Optionen, z.B. allgemein verfügbare Pakete in den Targets:
@@ -32,6 +33,7 @@ future::plan(future::multisession, workers = 4)
 # Definition der Pipeline:
 list(
   #tar_target(tweets_files, tweets_data_path, format = "file"),
+  tar_target(constants, set_constants), 
   tar_target(tweets_text, read_tweets(tweets_data_path), packages = c("tidyverse")),
   tar_target(tweets_text_small, tweets_text %>% slice_head(n = 100)),
   tar_target(senti_score, hate_score(tweets_text), packages = c("prada", "pradadata", "tidytext")),
