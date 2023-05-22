@@ -1,6 +1,9 @@
-def_recipe <- function(data_train) {
+def_recipe1 <- function(data_train) {
   
   # config::get()
+  
+  library(tidymodels)
+  library(tidytext)
   
   n_tokens <- config$n_tokens
   

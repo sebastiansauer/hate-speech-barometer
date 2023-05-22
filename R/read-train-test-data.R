@@ -1,6 +1,4 @@
-read_train_data <- function(path_to_data = path) {
-  
-  path_to_data <- path$data_train
+read_train_test_data <- function(path_to_data ) {
   
   d <- data_read(path_to_data, header = FALSE, quote = "")
   

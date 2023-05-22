@@ -1,14 +1,23 @@
 def_recipe2 <- function(data_train) {
   
-  
+  library(tidytext)
+  library(tidymodels)
+  library(textfeatures)
+  library(prada)
+  library(emo)
+  #library(remoji)
   
   #data("schimpwoerter", package = "pradadata")
   schimpfwoerter <- data_read("https://raw.githubusercontent.com/sebastiansauer/pradadata/master/data-raw/schimpfwoerter.csv")
   data("sentiws", package = "pradadata")
   data("wild_emojis", package = "pradadata")
+  
+  
+# function `count_lexicon` comes from package `prada`
+# https://github.com/sebastiansauer/prada
 
   
-  config::get()
+
   
   n_tokens <- config$n_tokens
   
@@ -18,9 +27,9 @@ def_recipe2 <- function(data_train) {
     recipe(c1 ~ ., data = d_reduced) %>%
     update_role(id, new_role = "id") %>%
     step_text_normalization(text) %>%
-    step_mutate(emo_count = map_int(text, ~count_lexicon(.x, sentiws$word))) %>% 
-    step_mutate(schimpf_count = map_int(text, ~ count_lexicon(.x, schimpfwoerter$word))) %>% 
-    step_mutate(emoji_count =  map_int(text,  ~ count_lexicon(remoji::emoji(remoji::list_emoji(), pad = FALSE), collapse = "|"))) %>% 
+    step_mutate(emo_count = map_int(text, ~count_lexicon(.x, sentiws$word))) %>%  # package "prada"
+    step_mutate(schimpf_count = map_int(text, ~ count_lexicon(.x, schimpfwoerter$word))) %>%   # package "prada"
+    step_mutate(emoji_count =  map_int(text, ji_count)) %>%   # package "emo"
     step_mutate(text_copy = text) %>% 
     step_textfeature(text_copy) %>% 
     step_tokenize(text) %>%

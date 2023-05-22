@@ -1,0 +1,15 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+config|object|88bd643d2d836cf9|||||||||||||||
+constants|stem|ffc72abe966f720c|53c4ec0a242e02cb|ce3c9ae80f55aa2d|680924664||t19499.4156619449s|d2d1db4a210f8f40|309|qs|local|vector|||0.001||
+def_recipe1|function|214b23f8d394387d|||||||||||||||
+def_recipe2|function|029d6cd0d1d7ffd9|||||||||||||||
+def_recipe3|function|9a643232624ab5a7|||||||||||||||
+hate_score|function|7669a2f8298f2d8d|||||||||||||||
+read_and_select|function|83d4ae2a7c4bd0d4|||||||||||||||
+read_tweets|function|b1e7ed3b06027214|||||||||||||||
+senti_score_tab|function|6a1b588845b2818b|||||||||||||||
+senti_tab_plot|function|1580cd12cf0e9508|||||||||||||||
+senti_tab_plot2|function|eac084c14f7a1236|||||||||||||||
+senti_tab_plot3|function|3a2dbf782ef37336|||||||||||||||
+set_constants|function|52ba4dc0c99603a7|||||||||||||||
+tweets_text|stem||16a00c9ce7a31817|63537b701def6e54|1653577449||t19499.4156712763s||0|qs|local|vector|||0.777||object tweets_data_path not found
