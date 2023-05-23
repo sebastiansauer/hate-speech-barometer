@@ -1,7 +1,7 @@
 ---
-data_prefix: /Users/sebastiansaueruser/github-repos/hate-speech-data/
-data_prefix2: /Users/sebastiansaueruser/github-repos/hate-speech-data/
-
-
+tweet_prefix: "/Users/sebastiansaueruser/github-repos/hate-speech-data/"
+tweet_prefix2: "/Users/sebastiansaueruser/github-repos/hate-speech-data/"
+data_train: "data-raw/GermEval-2018-Data-master/germeval2018.training.txt"
+data_test:  "data-raw/GermEval-2018-Data-master/germeval2018.test.txt"
 
 ---

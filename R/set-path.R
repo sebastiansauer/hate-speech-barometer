@@ -9,13 +9,13 @@ set_path <- function(which_computer = NULL, path_file = "path.yml"){
   
   #if (which_computer == 1) path$prefix <- path$prefix1
   
-  path$data_train <- paste0(path$data_prefix, "data-raw/GermEval-2018-Data-master/germeval2018.training.txt")
+  # path$data_train <- paste0(path$data_prefix, "data-raw/GermEval-2018-Data-master/germeval2018.training.txt")
+  # 
+  # path$data_test <- paste0(path$data_prefix, "data-raw/GermEval-2018-Data-master/germeval2018.test.txt")
   
-  path$data_test <- paste0(path$data_prefix, "data-raw/GermEval-2018-Data-master/germeval2018.test.txt")
+  path$tweets_small <- paste0(path$tweet_prefix, "data-raw/tweets-small")
   
-  path$tweets_small <- paste0(path$data_prefix, "data-raw/tweets-small")
-  
-  path$tweets <- paste0(path$data_prefix, "data-raw/tweets")
+  path$tweets <- paste0(path$tweet_prefix, "data-raw/tweets")
   
   
   return(path)

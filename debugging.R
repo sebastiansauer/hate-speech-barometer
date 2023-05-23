@@ -3,6 +3,7 @@
 
 library(targets)
 library(tidymodels)
+library(tidyverse)
 library(textrecipes)
 library(prada)
 library(datawizard)
@@ -14,6 +15,47 @@ tar_load(data_test)
 
 # read configuration from "config.yml":
 config <- config::get()
+
+
+
+tar_load(wf1_fit)
+tar_load(wf2_fit)
+tar_load(wf3_fit)
+
+
+
+wf_fits_l <-
+  list(wf1 = wf1_fit, wf2 = wf2_fit, wf3 = wf3_fit)
+
+
+wf_fits_roc <- 
+wf_fits_l %>% 
+  map(~ collect_metrics(.x) %>% filter(.metric == "roc_auc")) %>% 
+  list_rbind(names_to = "id") %>% 
+  arrange(-mean)
+
+
+wf_fits_best <-
+  wf_fits_roc %>% 
+  slice_head(n = 1)
+
+
+tar_load(wf_fits_best)
+tar_load(wf3)
+tar_load(wf3_fit)
+
+
+
+m1 <-
+mtcars |> 
+  split(mtcars$cyl)  
+
+
+
+
+
+
+
 
 
 # wf1 ---------------------------------------------------------------------

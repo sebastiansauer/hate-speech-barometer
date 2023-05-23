@@ -4,3 +4,6 @@ pipeline1:
 pipeline2:
   script: pipeline2.R
   store: pipeline2
+pipeline3:
+  script: pipeline3.R
+  store: pipeline3

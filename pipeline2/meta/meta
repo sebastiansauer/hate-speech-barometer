@@ -5,11 +5,20 @@ def_recipe1|function|214b23f8d394387d|||||||||||||||
 def_recipe2|function|029d6cd0d1d7ffd9|||||||||||||||
 def_recipe3|function|9a643232624ab5a7|||||||||||||||
 hate_score|function|7669a2f8298f2d8d|||||||||||||||
-read_and_select|function|83d4ae2a7c4bd0d4|||||||||||||||
-read_tweets|function|b1e7ed3b06027214|||||||||||||||
+path|stem|1f2181d63b7e0e11|28371edf9b70115b|5f11db0a40442b91|-1383433547||t19499.5779252014s|3b7c77e89f1a6100|221|qs|local|vector|||0.019||
+read_and_select|function|8abd70951a16f999|||||||||||||||
+read_tweets|function|cb63d617d733fb3a|||||||||||||||
+senti_plot|stem|6012858e1f2e1903|08cac6d4275fbe59|40fefa2cdb164edb|1230945752||t19500.1971925343s|bf5b045211b51290|61260|qs|local|vector|||0.022||
+senti_plot2|stem|1b7556dd98fc0b98|961f9800534db4f6|eb8ec2e8652cb9c1|1280528144||t19500.1971940464s|1b9b074c332ad98d|44391|qs|local|vector|||0.005||
+senti_plot3|stem|1cf4640ee6e9562d|aba686fbfd4f8c94|60be52e6fbcc4a5b|-1662848978||t19500.1971942445s|0e01f5003127305f|44121|qs|local|vector|||0.002||
+senti_score|stem|07f8dec011e58f27|62336dda5d53fa22|8554cefe2ee7ac21|1881784780||t19500.1971698899s|8cdc83d5869656b3|258605|qs|local|vector|||53081.428||
 senti_score_tab|function|6a1b588845b2818b|||||||||||||||
+senti_tab|stem|80128119223e4b8d|7d94cbeff2195bc7|f07be2305e43550a|314171503||t19500.1971819825s|fb499a9eb7800a77|776|qs|local|vector|||1.015||
 senti_tab_plot|function|1580cd12cf0e9508|||||||||||||||
 senti_tab_plot2|function|eac084c14f7a1236|||||||||||||||
 senti_tab_plot3|function|3a2dbf782ef37336|||||||||||||||
+senti_tab2|stem|9b89b9f9703355a2|b6c123d11c364b3d|f07be2305e43550a|2095300039||t19500.1971920577s|9fdc1e0d0bbc131d|417|qs|local|vector|||0.864||
 set_constants|function|52ba4dc0c99603a7|||||||||||||||
-tweets_text|stem||16a00c9ce7a31817|63537b701def6e54|1653577449||t19499.4156712763s||0|qs|local|vector|||0.777||object tweets_data_path not found
+set_path|function|a3fe49daf89fee7f|||||||||||||||
+tweets_text|stem|3e2bc01f8d8fc208|dcd2986bbe56e07c|17fd9f72820a7b93|1653577449||t19499.582800028s|d31df670ed8cd333|57271365|qs|local|vector|||31.31||
+tweets_text_small|stem|91da20124791016c|bc7e2be69b3d5d4a|5e8ac8c340947957|1807433547||t19500.1971701285s|71342d73c25bfb7a|5204|qs|local|vector|||0.006||

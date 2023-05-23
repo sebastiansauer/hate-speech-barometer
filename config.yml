@@ -6,25 +6,27 @@ default:
   verbose: TRUE
   tinyfy: TRUE
   n_grid: 2
+  n_workers: 3
   
   
 dev:
-  n_tokens: 10
+  n_tokens: 1e2
   n_rows: 100
-  v_folds: 2   
+  v_folds: 5   
   n_repeats: 1 
   verbose: TRUE
   tinyfy: TRUE
-  n_grid: 2  
+  n_grid: 5
+  n_workers: 3  
   
   
 production:
-  n_tokens: 1e3
+  n_tokens: 1e2
   n_rows: Inf
   v_folds: 10
   n_repeats: 2
   verbose: FALSE
   tinyfy: FALSE
   n_grid: 25
-  
+  n_workers: 3  
   

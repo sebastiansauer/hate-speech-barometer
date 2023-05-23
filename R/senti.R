@@ -1,6 +1,9 @@
 
 hate_score <- function(tweets_text){
   
+  
+  # THIS FUNCTION RUNS FOR APPROX 15 HOURS ON MY MACHINE
+  
   data("sentiws")
   
   # tweets_text <- tweets_text_small

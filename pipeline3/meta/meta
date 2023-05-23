@@ -1,0 +1,66 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+config|object|9e04c6e5f4b705e3|||||||||||||||
+count_lexicon_df|function|8c04e9de1eb07cd0|||||||||||||||
+count_lexicon_vec|function|96f616bc849d3f3f|||||||||||||||
+d_tt_rec1_baked|stem|af973d332f4e9288|88ccae7ad5262355|7d861846ebf0eddc|-1785795676||t19500.2778974945s|fd3554ee21b94afe|244205|rds|local|vector|||1.789||
+d_tt_rec2_baked|stem|e0349143a9cbc0b3|c765fc03476d6586|04ddea2322767d3c|-328975033||t19500.5744637647s|b7f2a2f7d7ec01b2|253941|rds|local|vector|||0.005||
+data_train|stem|5eaba5ffa4c441c6|8a4c79b349aa8932|f290e7e351fd0db1|601332319||t19500.3530698735s|6cba0c2006deefdd|336821|rds|local|vector|||0.016||
+data_train2|stem|6805fe3137036e26|a313af9b4c2d5fc5|f290e7e351fd0db1|795202502||t19500.3530689862s|729e96bf6dae2030|200603|rds|local|vector|||0.013||
+data_tt|stem|e0e4ef70afae1b7c|0f389a92080fddcc|39316e43d4b4624e|60778007||t19500.3140477527s|d3565794f199903d|560982|rds|local|vector|||3.584||
+def_model_boost|function|46727b1cb597ecd2|||||||||||||||
+def_model_boosted|function|f0eebda780f4080c|||||||||||||||
+def_model_logistic|function|5f49d46e5d2d592e|||||||||||||||
+def_model_rf|function|e5759a604165e08e|||||||||||||||
+def_model1|function|5f49d46e5d2d592e|||||||||||||||
+def_recipe_plain|function|39c0912cacc47abb|||||||||||||||
+def_recipe1|function|a3051ddf0d03609d|||||||||||||||
+def_recipe2|function|e63d0c3b05ae509a|||||||||||||||
+def_recipe3|function|fd86dddaec7fba2a|||||||||||||||
+final_fit|stem|f465857aa6398bc7|56e4afedbfec5633|bab83aacb994835f|301079685||t19500.6204510216s|c965be6ce4c3b06a|17840409|rds|local|vector|||24.924||
+fit_wf|function|f284d35869677b8a|||||||||||||||
+model_boost|stem|b711e03676469e0e|e2e85d80c3e2b242|fa0a9749bd6ac74a|812959557||t19500.2663764725s|a716db876c9596cc|353|rds|local|vector|||0.001||
+model_boosted|stem||fa120d88394a1b3a|6e9ce48b1d2c1782|28258731||t19500.2656513334s||0|rds|local|vector|||1.414||could not find function boosted_tree
+model_lasso|stem|65203da977410d1d|3bc1316ab9aeeba2|861c9e57dbe20dd2|783910895||t19500.2663763201s|42453b716dfde1f4|311|rds|local|vector|||1.275||
+model_rf|stem|176af6cb9c76b2be|a361046dc550ebd4|0bafd2aa74e15342|-1141682395||t19500.2879370908s|cb91aba74fec518e|303|rds|local|vector|||3.741||
+model1|stem|65203da977410d1d|31a840692445442f|7c9e5d4f299fd69b|-2049561030||t19500.2583137102s|42453b716dfde1f4|311|rds|local|vector|||1.464||
+models|stem|9cf09a2abec84d0b|b9ce8a4f80183d1f|537dee5a482c3d62|-252836656||t19500.2893589207s|f73cea00d22be8c9|512|rds|local|vector|||3.555||
+path|stem|3b4970ecbf935c6b|28371edf9b70115b|bdaa3fe6b057b7d6|-1383433547||t19500.3530644195s|0e833cdd3158622c|249|rds|local|vector|||3.636||
+preds|stem|d0eab11ace2d6738|48397c8c8131527a|f48e4283cb40edab|-697070188||t19500.626854286s|c784844629387e6b|197|rds|local|vector|||0.54||
+read_and_select|function|89d3aac90641fad3|||||||||||||||
+read_train_test_data|function|b614604702a72c61|||||||||||||||
+read_tweets|function|c7ebeb42a95bd26e|||||||||||||||
+recipe_plain|stem|8a4977427c10654c|cd4f9c5bd5be6e46|bdff92f601f9f950|1062053806||t19500.5744744115s|efdb921346f13bcb|255524|rds|local|vector|||0.025||
+recipe_plain_prepped|stem|92dd891b05b73ba6|0fdedf3cfc9c957a|62121e6d58809a43|-1294794419||t19500.5844552567s|763c172060459ab2|284681|rds|local|vector|||0.031||
+recipe1|stem|e1f31c7a4770f768|447d68f01cc14fed|846b7914e19b27d8|1578298187||t19500.2778424798s|c93b5211b55bb74f|5061370|rds|local|vector|||0.054||
+recipe2|stem|3d2a5187a63ff395|c7fd639c1f3876ff|a8e660292911d8ee|1810695935||t19500.5709173531s|5d2a266ae505cf58|10768299|rds|local|vector|||4.217||
+recipe2_prepped|stem|89ba4d3f44ea84b4|2f70ad7a4678d981|f7706d1076ac5ba3|1395497311||t19500.5744417867s|12c912e28be06189|11015794|rds|local|vector|||257.007|There was 1 warning in dplyrmutate.ℹ In argument emo_count  map_inttext, count_lexicon_vec.x,  tolowersentiwsword.Caused by warning in inner_join Detected an unexpected manytomany relationship between x and y.ℹ Row 18 of x matches multiple rows in y.ℹ Row 3220 of y matches multiple rows in x.ℹ If a manytomany relationship is expected, set relationship   manytomany to silence this warning.|
+sentiws|object|86a7405eed6204c9|||||||||||||||
+set_path|function|0ada597d80469e2c|||||||||||||||
+tune_my_anova|function|33a1d266ab0e3555|||||||||||||||
+tune_my_grid|function|2b25a28794fa2727|||||||||||||||
+tune_wf|function|33a1d266ab0e3555|||||||||||||||
+tweets_baked|stem|8cc21ebe9617c3b4|8cb807ba76593286|841e59ac094e4025|-2128762413||t19500.5844523355s|ee1af5a48e834617|21858|rds|local|vector|||2.563||
+tweets_baked_0c84ba81|branch||3aa560131b965801|5a353cd096058fd4|-32295024||t19500.5030508651s||0|rds|local|list|tweets_baked||405.616||Please pass a data set to new_data.
+tweets_baked_3e8dcc95|branch||5974975278564516|47b9f83ee362f3c2|1428284451||t19500.5830952899s||0|rds|local|list|tweets_baked||0.022||Please pass a data set to new_data.
+tweets_baked_650765fa|branch||3aa560131b965801|6668701765135d93|2055280992||t19500.5066693687s||0|rds|local|list|tweets_baked||231.764||Please pass a data set to new_data.
+tweets_baked_cc44609b|branch||3aa560131b965801|c1251c1ef6c3bdf0|2068133166||t19500.560804801s||0|rds|local|list|tweets_baked||263.636|There was 1 warning in dplyrmutate.ℹ In argument emo_count  map_inttext, count_lexicon_vec.x,  tolowersentiwsword.Caused by warning in inner_join Detected an unexpected manytomany relationship between x and y.ℹ Row 18 of x matches multiple rows in y.ℹ Row 3220 of y matches multiple rows in x.ℹ If a manytomany relationship is expected, set relationship   manytomany to silence this warning.|Please pass a data set to new_data.
+tweets_df|stem|cc36ad83347c92d4|dcd2986bbe56e07c|5cd9c2078323eb86|-80218263||t19500.5573919049s|15dc13b3bdc358d7|60098393|rds|local|vector|||30.41||
+tweets_df_tiny|stem|8c1b20de838b55c1|9be752fa54f1d6dd|88e0c85fa2a61437|-2119045101||t19500.5824588854s|5e02f1d19d823857|7727|rds|local|vector|||1.401||
+tweets_files|stem|e1234c22cde27d5c|255f96bf391aef38|a1210d8ce158fbf5|-250035579|/Users/sebastiansaueruser/github-repos/hate-speech-data/data-raw/tweets|t19499.4065895233s|1476f25704154386|928|file|local|vector|||3.695||
+tweets_l|stem|da24ff806db2f732|dbddff8537bafdaf|bb1a93d5f30943de|-1572374132||t19500.5575206436s|540398f61a3707b2|62160758|rds|local|vector|||0.321||
+tweets_l_nona|stem|da24ff806db2f732|c51ed4cb8545c96f|f3c2099647047993|2035438879||t19500.5816352775s|540398f61a3707b2|62160758|rds|local|vector|||0.013||
+tweets_l_tiny|stem|20083c51cb109182|cd7f387f5f2b6169|4be18d9a36ad9e55|752482006||t19500.5824651079s|5615edd1468834a5|7740|rds|local|vector||tweets_l_tiny_e93c2261|0.519|data length is not a multiple of split variable|
+wf_fits_best|stem|353393e12d8b5f6d|741f4b2c2bb87c0a|dc8f5ab9f3e7ee32|-666207378||t19500.6204512285s|b118d73574f00f7d|299|rds|local|vector|||0.002||
+wf_fits_l|stem|e38897ad3d85f947|0df8990e93d253a5|2eb6770b53cf2181|-1178914742||t19500.6201048913s|7a3a0102589d1c49|4030670|rds|local|vector|||0||
+wf_fits_roc|stem|26b27b63779d35c0|29e73cb9d58d7fcb|f542f99bf5d0b7c6|110581035||t19500.620116672s|990f4e6f76416b38|452|rds|local|vector|||0.237||
+wf1|stem|806f2121f3de684e|c16bb52a7aab9a45|8552860ec2c5f2ca|-1280241407||t19500.5844537969s|9b9bb0751462d110|255979|rds|local|vector|||0.008||
+wf1_413b0e6d|branch||920105abbdc8cfb0|098807300f344187|285166039||t19500.3243123561s||0|rds|local|list|wf1||3.782||spec must be a model_spec.
+wf1_autoplot|stem|ff68a7abbf0d6c7e|3c72c9b1ce8a22fc|5b70d8701e15fad0|-187898122||t19500.6200877143s|c8c7b01fe17ba361|1474783|rds|local|vector|||0.258||
+wf1_fit|stem|70df6a03178d32bb|474e820e8a3352b1|bb1e30f5623dd854|-907610971||t19500.5876780274s|ff7c0f44fd27f35e|1345573|rds|local|vector|||6.688||
+wf2|stem|16741718048f0756|d62d37bd5b178b84|62b53cd0225b1260|252757859||t19500.574493087s|253a9025ca9976a1|256032|rds|local|vector|||0.003||
+wf2_autoplot|stem|5dd6ee965002e706|4a23044dd01336ce|ad8d2939fd99a5b7|229515056||t19500.6200789475s|11c19541b7b560e7|1414815|rds|local|vector|||0.197||
+wf2_fit|stem|67d4e7315652d2dc|6db1c38f609aafce|491c92ae6444799c|676251841||t19500.5875958256s|8ce262c8fb57f8d2|1345969|rds|local|vector|||270.846||
+wf3|stem|0b23e303f2eb14f5|66a3ee91995f7606|519869f7bd58d50f|141605411||t19500.574487394s|fe2572528608563e|255969|rds|local|vector|||0.007||
+wf3_autoplot|stem|8f3fb300c66774ce|f37a2b4d8ea27a87|03fd263f83195063|2131013853||t19500.6201138456s|268010f5948d9d48|1405862|rds|local|vector|||0.145||
+wf3_finalized|stem|fe832ab89b62b3c7|6bb0cabe4314da8a|20a3afcbc71240db|-468650580||t19500.6201068893s|47d8ecfa092a3d9f|255959|rds|local|vector|||0.077||
+wf3_fit|stem|a4c7edf5edf73b9f|5c1a6785ca83e7ab|d2ec06fc7457c766|748627927||t19500.6200709813s|1bc4cc17c70f143e|1342545|rds|local|vector|||2798.334||

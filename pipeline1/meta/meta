@@ -1,18 +1,3 @@
-name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-config|object|88bd643d2d836cf9|||||||||||||||
-data_test|stem|6805fe3137036e26|a313af9b4c2d5fc5|9f5242af029113eb|1601128090||t19499.5636927071s|729e96bf6dae2030|200603|rds|local|vector|||0.022||
-data_train|stem|5eaba5ffa4c441c6|8a4c79b349aa8932|9f5242af029113eb|601332319||t19499.5636919553s|6cba0c2006deefdd|336821|rds|local|vector|||0.018||
-def_model1|function|5f49d46e5d2d592e|||||||||||||||
-def_recipe1|function|003f988305468dfd|||||||||||||||
-def_recipe2|function|5a0b4ab9733dc330|||||||||||||||
-model1|stem|65203da977410d1d|31a840692445442f|7c9e5d4f299fd69b|-2049561030||t19499.5636907883s|42453b716dfde1f4|311|rds|local|vector|||3.598||
-path|stem|4393599fc8e490d1|28371edf9b70115b|5f11db0a40442b91|-1383433547||t19499.5632459334s|71e695e858e0833c|250|rds|local|vector|||3.795||
-read_train_test_data|function|b614604702a72c61|||||||||||||||
-rec1_baked|stem|d08dd3b1b2d19fbe|88ccae7ad5262355|620b07d816ce9fc5|-993212778||t19499.5637287884s|be2e30d5dd28b35f|56470|rds|local|vector|||0.99||
-rec2_baked|stem|7c4f1b747bea1917|145c4a095cb0983f|f912d09374602396|-667612671||t19499.5651276297s|4f0d90ee64cbb716|105652|rds|local|vector|||119.177||
-recipe1|stem|f7148ce04f1a7576|13f49c1bdb532343|c1666cc3293a0567|1578298187||t19499.5637001464s|631e9052ecff130d|3176339|rds|local|vector|||0.1||
-recipe2|stem|c9f850cd2335bf2b|3ab4ee5786f37230|2f88213ede71e282|1810695935||t19499.5637170879s|1defe93b821f47a4|6075481|rds|local|vector|||0.4||
-set_autoplot|stem|64a5ef69a15bfc9c|e969d87ed6f8627b|a7b8be2a08466994|-1073672494||t19499.5680842366s|2c6a56020506b34f|19433155|rds|local|vector|||0.353||
-set_fit|stem|e91270d94480657f|8316da56019e39d2|b2cdd1bf8fe06f95|1382439278||t19499.568038683s|6f1766fc91ea4dd7|12153028|rds|local|vector|||249.393||
-set_path|function|a3fe49daf89fee7f|||||||||||||||
-wf_set|stem|7ce0a84e08db25e8|d830b010e38bd667|9ca2ad00f1539095|-135159059||t19499.5637478085s|df36bcddbf64adfd|9254689|rds|local|vector|||0.039||
+version https://git-lfs.github.com/spec/v1
+oid sha256:ffd5fa7962be686e81823f1203ff81d5a13b1445330537b7381a9b0abea28df7
+size 2720
