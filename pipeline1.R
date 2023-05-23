@@ -64,7 +64,7 @@ list(
   # bake the recipes (train data):
   tar_target(d_train_rec1_baked, bake(prep(recipe1), new_data = NULL)),
   tar_target(d_train_rec2_baked, bake(prep(recipe2), new_data = NULL)),
-  tar_target(d_tt_rec2_baked, bake(prep(recipe1)))
+  tar_target(d_tt_rec2_baked, bake(prep(recipe1))),
   
   # define models:
   tar_target(model1, def_model1()),

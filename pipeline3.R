@@ -125,7 +125,6 @@ list(
   # bake each chunk individually:
   tar_target(tweets_baked, bake(recipe2_prepped, new_data = tweets_df_tiny)),
   
-
   # predict tweets (using the best workflow):
   tar_target(preds, predict(object = final_fit, new_data = tweets_baked))
   
