@@ -5,18 +5,18 @@ library(targets)
 library(tarchetypes)
 library(crew)
 
-library(tidyverse)
-library(finetune)
-library(tidymodels)
-library(textrecipes)
-library(prada)
-library(pradadata)
-library(datawizard)
-library(stringr)
-library(remoji)
-library(emo)
-
-data(sentiws)
+# library(tidyverse)
+# library(finetune)
+# library(tidymodels)
+# library(textrecipes)
+# library(prada)
+# library(pradadata)
+# library(datawizard)
+# library(stringr)
+# library(remoji)
+# library(emo)
+# 
+# data(sentiws)
 
 # read configuration from "config.yml":
 config <- config::get()
@@ -31,6 +31,7 @@ source("R/def-models.R")
 source("R/tune-wf.R")
 source("R/read-tweets.R")
 source("R/helper-funs.R")
+source("R/plots.R")
 
 
 # tar options:
@@ -82,15 +83,17 @@ list(
   tar_target(model_boost, def_model_boost()),
   tar_target(model_rf, def_model_rf()),
 
-  # tune all workflows:
+  # tune workflow 1:
   tar_target(wf1, fit_wf(model_lasso, recipe_plain)),
   tar_target(wf1_fit, tune_my_anova(wf1, data = d_tt_rec2_baked)),
   tar_target(wf1_autoplot, autoplot(wf1_fit)),
 
+  # tune workflow 2:
   tar_target(wf2, fit_wf(model_boost, recipe_plain)),
   tar_target(wf2_fit, tune_my_anova(wf2, data = d_tt_rec2_baked)),
   tar_target(wf2_autoplot, autoplot(wf2_fit)),
-  
+
+  # tune workflow 3:  
   tar_target(wf3, fit_wf(model_rf, recipe_plain)),
   tar_target(wf3_fit, tune_my_anova(wf3, data = d_tt_rec2_baked)),
   tar_target(wf3_autoplot, autoplot(wf3_fit)),
@@ -103,32 +106,33 @@ list(
                arrange(-mean)),
   tar_target(wf_fits_best, wf_fits_roc %>% slice_head(n = 1)),
   
-  # finalize wf:
-  tar_target(wf3_finalized, wf3 %>% finalize_workflow(select_best(wf3_fit, metric = "roc_auc"))),
+  # finalize the best wf:
+  tar_target(wf3_finalized, wf3 %>% finalize_workflow(wf_fits_best)),
   tar_target(final_fit, fit(wf3_finalized, d_tt_rec2_baked)),
   
   # load new tweets:
-  tar_target(tweets_files, path$tweets, format = "file"),
-
-  # read all the tweets into a character vector, df and list (a lot of data!)
-  tar_target(tweets_df, read_tweets(path$tweets), packages = c("tidyverse")),
-
-  tar_target(tweets_l, tweets_df %>% split(tweets_df$id)),
-  tar_target(tweets_l_nona, tweets_l %>% list_drop_empty(),
-             packages = c("vctrs", "tidyverse")),
-  
+  tar_files(tweets_path, path$tweets %>% list.files(full.names = TRUE, pattern = "rds$")),
+  tar_target(tweets,  tweets_path %>% 
+               read_and_select() %>% 
+               drop_na(),
+             pattern = map(tweets_path)),
+ 
   # tinyfy tweets, for quicker debugging:
-  tar_target(tweets_df_tiny, tweets_df %>% group_by(id) %>% sample_frac(size = .0001)),
-  tar_target(tweets_l_tiny, tweets_df_tiny %>% split(tweets_df$id) %>% list_drop_empty(),
-             packages = c("vctrs", "tidyverse")),
+  tar_target(tweets_df, tweets %>% 
+               sample_n(size = config$n_rows) %>% 
+               drop_na() %>% 
+               group_by(id)),
   
   # bake each chunk individually:
-  tar_target(tweets_baked, bake(recipe2_prepped, new_data = tweets_df_tiny)),
+  tar_target(tweets_baked, bake(recipe2_prepped, new_data = tweets_df)),
   
   # predict tweets (using the best workflow):
-  tar_target(preds, predict(object = final_fit, new_data = tweets_baked))
+  tar_target(preds, predict(object = final_fit, new_data = tweets_baked)),
+  tar_target(tweets_baked_preds, enrich_preds(tweets_df, preds, tweets_baked)),
   
-  # plot results:
+  # show results:
+  tar_target(preds_summarized, summarise_preds(tweets_baked_preds)),
+  tar_target(preds_summarized_plot, plot_preds_summarized(preds_summarized))
   
  
 )
