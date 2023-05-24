@@ -82,6 +82,8 @@ authors: Sebastian Sauer, Alexander Piazza, Sigurd Schacht
 - Mehrere Methoden zur Enkodierung von nominalen (Faktor-)Variablen (wie Effektkodierung)
 - Möglichkeiten, um unbekannte Faktorstufen im Test-Sample aufzufangen oder Faktorstufen zusammenzufassen
 - Over- und Under-Sampling bei Klassenimbalance
+- Aufnahme der Vorverarbeitung in die Kreuzvalidierung
+- Angebot mehrere Implementierungen eines Algorithmusses (z.B. AdaBoost vs. XGB vs. LightBoost)
 
 
 ### Targets
@@ -111,14 +113,44 @@ authors: Sebastian Sauer, Alexander Piazza, Sigurd Schacht
 
 ## Schritte der Pipeline
 
+- Anstelle von Schritten sollte man eher von "Targets" einer Pipeline sprechen, also dem Ergebnis bzw. dem Objekt, den ein Analyseschritt zurückliefert. 
+- Dieses Objekt ist dann wiederum Input für folgende (downstream) Analyseschritte.
+- Im Folgenden ist, aufgegliedert nach groben Abschnitten der Pipeline, jeweils der Name und eine Beschreibung des Schrittes (des Targets) beschrieben.
+- Für jedes Target, das wichtig genug für eine eigene Funktion ist, ist eine URL angegeben zum Quellcode angegeben.
+
 ### Vorverarbeitung
+
+- `path`: Definiert die (relativen) Pfade zu den Daten.
+- `d_train` und `d_test`: Importiert Train- und Test-Daten (basierend auf den Pfaden, wie von `path` zurückgegeben).
 
 
 ### Modellierung
 
+- `recipe2`, `recipe2_prepped`, `d_train_baked`, `d_test_baked`: Definiert die Vorverarbeitung zum Modell und wendet diese Vorverarbeitung auf die Daten an, s. Syntax hier.
+- `recipe_plain`, `recipe_plain_prepped`: Um Rechenzeit zu sparen (und weil in der Vorverarbeitung kein Tuning vorkommt), wurde die Vorverarbeitung aus dem Modell entfernt und wird vor der Modellierung durchgeführt. Während der Modellierung kommt nur noch minimale Vorverarbeitung im Rahmen von `recipe_plain` zustande.
+- `model_lasso`, `model_boost`, `model_rf`: Drei Lernalgorithmen (Modelle), nämlich das Lasso, XGBoost und Random Forest.
+- `wf1`, `wf2`,  `wf3`: In Tidymodels ist ein Workflow definiert als die Summe von Ververarbeitung, Lernalgorithmus und Nachbearbeitung der Daten. `wf1` ist der Workflow mit dem Modell Lasso (`wf2`: XGB, `wf3`: Ranom Forest). Die Vorverarbeitung ist in allen Workflows identisch.
+- `wf1_fit` etc.: Der kreuzvalidierte, getunte Workflow, also die Modellparameter
+- `wf1_autoplot` etc.: Diagramm zur Modellgüte in Abhängigkeit der Modllparameter und der Streuung über das Resampling
+- `wf_fits_l`, `wf_fits_roc`, `wf_fits_best`: Alle Modelle in einem`Listen-Objekt (`wf_fits_l`
+- `wf3_finalized`, `final_fit`, `preds_test`: Der beste Workflow wird ausgewählt und mit den besten Tuningparameter-Werten instantiiert (`wf3_finalized`). Daraufhin wird das komplette Train-Sample mit diesem Workflow gefittet (`final_fit`) und das Test-Sample vorhergesagt/klassifiziert (`preds_test`).
+
+
+
+
 
 ### Klassifikation von Tweets
 
+- `tweets_path`: Der Ordner wird "überwacht", so dass das Target neu ausgeführt wird, wenn sich die Dateien im Ordner ändern
+- `tweets`, `tweets_df`: Die Tweets werden aus dem Ordner in einen Dataframe importiert (in paralleler Ausführung auf mehreren Instanzen). Nach Bedarf wird die Anzahl der Tweets reduziert (um schnellere Verarbeitung zu ermöglichen).
+- `tweets_baked`: Die Tweets werden der gleichen Vorverarbeitung unterzogen wie Train- und Test-Sample.
+- `preds`, `tweets_baked_preds`: Die Tweets werden klassifiziert (hinsichtlich Hate-Speech) und die Vorhersagen zu den übrigen Tweets-Daten hinzufgefügt.
+
+
+### Ergebnisse der Pipeline
+
+- `preds_summarized`: Anteil der als Hate-Speech klassifizierten Tweet, gruppiert nach Accountname und Jahr, s. Abb.
+- `preds_summarized_plot`: Plot für `preds_summarized`
 
 
 ## Konstanten
@@ -127,6 +159,8 @@ Die gesetzten Konstanten sind hier dargestellt (config.yml).
 
 
 ## Varianten der Pipeline
+
+Die Standardvariante findet sich im Git-Branch "main". Im Branch "dev" finden sich weitere Varianten der Pipeline.
 
 
 
@@ -137,6 +171,7 @@ Die gesetzten Konstanten sind hier dargestellt (config.yml).
 - Eine Vielzahl von Tools wird verwendet, was Anforderungen an das technische Knowhow der Nutzer:innen stellt.
 - Nicht-interaktive Ansätze (wie funktionale Programmierung) ist schwieriger zu debuggen.
 - [Alternative Projekte mit ähnlicher Zielsetzung?]
+- NLP ist rechenintensiv; gerade bei großen Daten muss nach schnelleren Implementierungen gesucht werden, das ist z.B. bei `count_lexicon` der Fall (WIP).
 
 
 
