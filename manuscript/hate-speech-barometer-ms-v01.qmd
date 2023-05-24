@@ -3,10 +3,17 @@ title: "The hate-speech barometer template: A tutorial on design and setup"
 subtitle: Manuscript, V01
 date: 2024-05-24
 licence: CC-BY
+project:
+  output-dir: docs
+
 authors: Sebastian Sauer, Alexander Piazza, Sigurd Schacht
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
 toc: true
 number-sections: true
+format:
+  html:
+    theme: journal
+    embed-resources: true  
 ---
 
 
@@ -28,7 +35,7 @@ there are many commonalities between the January assaults on Brazil's government
 including that each event happened after certain groups continuously used threatening language and false allegations against others.
 According to a BBC new article, online hate speech in the UK and US has risen by approx. 20% since the start of the Covid pandemic^[https://www.bbc.com/news/newsbeat-59292509, accessed 2024-05-24].
 More recently, Iceland's government is the 34th to join ratification concerning the criminalization of acts of a racist and/or xenophobic natur commited through computer systems^[https://www.coe.int/en/web/cyberviolence/-/iceland-joins-the-first-additional-protocol-to-the-convention-on-cybercrime-on-countering-xenophobic-and-racist-acts-committed-through-computer-systems, accessed 2024-05-24].
-Some researchers have even put forward the hypothesis of a causal link between social media use and offline violence [@cinelli_dynamics_2021, @calvert_hate_1997, @chan_internet_2016, @chan_internet_2016].
+Some researchers have even put forward the hypothesis of a causal link between social media use and offline violence [@cinelli_dynamics_2021; @calvert_hate_1997; @chan_internet_2016; @chan_internet_2016].
 @carley_social_2020 summarize that hate speech constitutes a major threats not only for democracy and civil rights including freedom, but also for individual mental and psychosocial health. 
 For example, @wypych_psychological_2022 conducted an online survey among N=726 Ukrainian immigrants living in Poland. 
 The authors aimed at investigating the association between exposure to hate speech, stress, and mental health. 
@@ -47,11 +54,11 @@ Augmenting the already high difficulties in detecting hate speech is that annota
 
 Different methodologies for detecting hate speech have been developed and are in widely circulated use, 
 comprising deep learning, shallow learning and text-mining (non machine learning) approaches. 
-One basic textmining approach is a keyword-based method, where an ontology or dictionary is used to identify text containing potentially hateful keywords [@macavaney_hate_2019].
+One basic text mining approach is a keyword-based method, where an ontology or dictionary is used to identify text containing potentially hateful keywords [@macavaney_hate_2019].
 However, simply using a hateful slur is not enough to constitute hate speech according to a study of different definitions of hate speech  [@macavaney_hate_2019]. 
 More advanced techniques include machine learning models ranging from word count (e.g., TFIDF) methods to complex BERT models [@jahan_systematic_2021].
 Successful detection models use more than one approach, including hybrid models that combine different techniques for more accurate results [@alkomah_literature_2022].
-Advancements in natural language processing (NLP) and machine learning have greatly improved the detection of hate speech. With the help of machine learning algorithms, particularly deep neural networks, NLP can be used to identify linguistic patterns and features that are indicative of hate speech [@jahan_systematic_2021, @pang_deep_2022, @yin_towards_2021, @velankar_review_2022].
+Advancements in natural language processing (NLP) and machine learning have greatly improved the detection of hate speech. With the help of machine learning algorithms, particularly deep neural networks, NLP can be used to identify linguistic patterns and features that are indicative of hate speech [@jahan_systematic_2021; @pang_deep_2022; @yin_towards_2021; @velankar_review_2022].
 Various approaches have been used to detect specific features or linguistic patterns that denote hate speech in text, 
 including rule-based classification models and, more recently, a proliferation of deep learning methods like Long Short-Term Memory networks (LSTM) and Transformer-based architectures [@malik_deep_2022]. 
 
@@ -106,8 +113,11 @@ Our goal is facilitate applied researchers from the social sciences to conduct t
 # Research design
 
 This paper describes a tool that facilitates a classical ML pipeline focused on hate speech detection.
+The source code can be accessed freely [here](https://github.com/sebastiansauer/hate-speech-barometer).
 Towards that end, a typical ML pipeline is provided including well-known steps such as tuning different ML algorithms and employing resampling schemes.
+Results of the analyses as facilitated by this project could be summarized with plots such @fig-sentiplot2.
 
+![Hate speech proxies based on Tweets to German politicians](senti_plot2.png){#fig-sentiplot2}
 
 
 
@@ -170,9 +180,13 @@ An example is provided below.
 
 # ML pipeline of the hate speech barometer
 
-@fig-pipe3 shows the pipeline of the hate speech barometer.
+@fig-pipe3 shows the pipeline of the hate speech barometer;
+an interactive version of the diagram is available [here](https://sebastiansauer.github.io/hate-speech-barometer/tar-visnetwork-pipeline3.html). 
+In this graph, each node describes a target and each edge shows dependencies between the targets with the arrows heading downstream.
+The appendix provides an overview in tabular form of the targets of the ML pipeline (@tbl-targets).
 
-![pipeline of the hate speech barometer](../img/pipeline3.png)
+
+![pipeline of the hate speech barometer](../img/pipeline3.png){#fig-pipe3}
 
 In the following, we describe the steps of the pipeline in some detail so that practitioners know what each step accomplishes.
 Instead of a "step" the term "target" could be used when seen from a functional programming view, focusing on the value (or output, result) of a function.
@@ -183,18 +197,18 @@ Where the step is complex enough to merit its own function, we provide the URL t
 ## Data preprocessing
 
 
-- `path`: Defines the (relative) paths to the data
-- `d_train` and `d_test`: Imports train- and test-sample (based on the paths, that's why the object `path` is the input for this target).
-- `recipe2`, `recipe2_prepped`, `d_train_baked`, `d_test_baked`: Defines the preprocessing "recipe" of the data (prior to modelling) and applies to the data sets.
+- `path`: Defines the (relative) paths to the data^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/set-path.R]
+- `d_train` and `d_test`: Imports train- and test-sample (based on the paths, that's why the object `path` is the input for this target).^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/read-test-data.R]
+- `recipe2`, `recipe2_prepped`, `d_train_baked`, `d_test_baked`: Defines the preprocessing "recipe" of the data (prior to modelling) and applies it to the data sets.^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/def-recipes.R]
 - `recipe_plain`, `recipe_plain_prepped`: As the data preprocessing was time consuming and had no tuning parameters it was taken out from the model workflow (and the cross validation) and conducted before the modelling, in order to save computation time. During the modelling workflow, a minimal preprocessing took place.
 
 
 ## Modelling
 
 
-- `model_lasso`, `model_boost`, `model_rf`: Three learning algorithms, i.e., the Lasso (L1 penalized regression), gradient boosting, random forests.
-- `wf1`, `wf2`,  `wf3`: In Tidymodels, a workflow (wf) consists of preprocessing and the ML algorithm plus optional postprocessing. `wf1` ist the workflow consisting of the Lasso as ML algorithm; `wf2`: boosting, `wf3`: random forest. The preprocessing was identical in all three workflows.
-- `wf1_fit` etc.: The cross-validated, tuned workflow, i.,e., the fitted model, where the model parameters have been estimated
+- `model_lasso`, `model_boost`, `model_rf`: Three learning algorithms, i.e., the Lasso (L1 penalized regression), gradient boosting, random forests^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/def-models.R]
+- `wf1`, `wf2`,  `wf3`: In Tidymodels, a workflow (wf) consists of preprocessing and the ML algorithm plus optional postprocessing. `wf1` ist the workflow consisting of the Lasso as ML algorithm; `wf2`: boosting, `wf3`: random forest. The preprocessing was identical in all three workflows.^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/tune-wf.R]
+- `wf1_fit` etc.: The cross-validated, tuned workflow, i.,e., the fitted model, where the model parameters have been estimated^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/tune-wf.R]
 - `wf1_autoplot` etc.: Diagrams depicting model performance (mean and sd) according to the selected performance measures (ROC-AUC in this case)
 - `wf_fits_l`, `wf_fits_roc`, `wf_fits_best`: All models stored in a list-object (`wf_fits_l`) in order to render access to the model performance simple; `wf_fits_roc` contains all the performance measures (ROC-AUC), and `wf_fits_best` identifies the model exhibiting the best fit.
 - `wf3_finalized`, `final_fit`, `preds_test`: The best performing workflow is chosen and initiated with the best performing tuning parameters (`wf3_finalized`), then, the whole train sample is fit with the best model, giving `final_fit`; on this base the test sample is predicted (`preds_test`).
@@ -211,9 +225,9 @@ Where the step is complex enough to merit its own function, we provide the URL t
 ### Pipeline results
 
 
-- `preds_summarized`: Proportion of hate speech per Twitter account, per year, s. Figure.
+- `preds_summarized`: Proportion of hate speech per Twitter account, per year, s. Fig. ^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/helper-funs.R]
 
-- `preds_summarized_plot`: Plot for `preds_summarized`
+- `preds_summarized_plot`: Plot for `preds_summarized`^[https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/plots.R]
 
 
 ## Constants
@@ -233,7 +247,7 @@ which renders the access more difficult for less advanced users.
 In addition, deep learning methods are not yet implemented (although planned).
 Of course, users of any technical system follow two opposing goals: feature richness and simplicity. 
 The optimal balance between the two goals partly depends on the user's background and goals.
-That said, this project draws from an array of toos which implies that the user is accostumed to these tools (R, git, github, targets, tidymodels).
+That said, this project draws from an array of tools which implies that the user is accustomed to these tools (R, Git, Github, Targets, Tidymodels).
 Limited knowledge of these tools will place a barrier to easy access to the system.
 Working with text data can place substantial burden on the computational resources.
 As to yet the present tool is not yet fully optimized to saving resources.
@@ -241,10 +255,23 @@ As to yet the present tool is not yet fully optimized to saving resources.
 There is a substantial number of case studies and tutorial on ML pipelines freely available on the web.
 However, there's still, to the best of our knowledge no case study or template for a complex data analysis incorporating Tidymodels and Targets.
 
-In sum, it is our hope that the present research contributes to the detection of hate speech by providing a scaffold to the applied research so that he or she can focus on the phenomen of hate speech rather on the technical intricaties of ML.
+In sum, it is our hope that the present research contributes to the detection of hate speech by providing a scaffold to the applied research so that he or she can focus on the phenomenon of hate speech rather on the technical intricacies of ML.
 
 
 
+# Appendix {.appendix}
+
+@tbl-targets provides an overview of the targets of the analytic pipeline of the hate speech barometer.
+
+```{r}
+#| echo: false
+#| tbl-cap: Overview of the targets of the pipeline
+#| label: tbl-targets
+d <- readr::read_rds("manifest_pipeline3.rds") |>
+  dplyr::select(1,2) 
+
+d |> gt::gt()
+```
 
 
 

@@ -1,0 +1,39 @@
+name,command,pattern
+model_rf,def_model_rf(),NA
+path,set_path(),NA
+model_lasso,def_model_logistic(),NA
+model_boost,def_model_boost(),NA
+tweets_path_files,"path$tweets %>% list.files(full.names = TRUE, pattern = ""rds$"")",NA
+d_test,read_train_test_data(path$data_test),NA
+d_train,read_train_test_data(path$data_train),NA
+tweets_path,tweets_path_files,map(tweets_path_files)
+recipe2,def_recipe2(d_train),NA
+tweets,tweets_path %>% read_and_select() %>% drop_na(),map(tweets_path)
+recipe2_prepped,prep(recipe2),NA
+tweets_df,"tweets %>% sample_n(size = config$n_rows) %>% drop_na() %>% 
+     group_by(id)",NA
+d_train_baked,"bake(recipe2_prepped, new_data = NULL)",NA
+d_test_baked,"bake(recipe2_prepped, new_data = d_test)",NA
+tweets_baked,"bake(recipe2_prepped, new_data = tweets_df)",NA
+recipe_plain,def_recipe_plain(d_train_baked),NA
+wf1,"fit_wf(model_lasso, recipe_plain)",NA
+wf2,"fit_wf(model_boost, recipe_plain)",NA
+wf3,"fit_wf(model_rf, recipe_plain)",NA
+recipe_plain_prepped,prep(recipe_plain),NA
+wf1_fit,"tune_my_anova(wf1, data = d_train_baked)",NA
+wf2_fit,"tune_my_anova(wf2, data = d_train_baked, grid = 1)",NA
+wf3_fit,"tune_my_anova(wf3, data = d_train_baked, grid = 1)",NA
+wf1_autoplot,autoplot(wf1_fit),NA
+wf2_autoplot,autoplot(wf2_fit),NA
+wf3_autoplot,autoplot(wf3_fit),NA
+wf_fits_l,"list(wf1 = wf1_fit, wf2 = wf2_fit, wf3 = wf3_fit)",NA
+wf_fits_roc,"wf_fits_l %>% map(~collect_metrics(.x) %>% filter(.metric == 
+     ""roc_auc"")) %>% list_rbind(names_to = ""id"") %>% arrange(-mean)",NA
+wf_fits_best,wf_fits_roc %>% slice_head(n = 1),NA
+wf3_finalized,wf3 %>% finalize_workflow(wf_fits_best),NA
+final_fit,"fit(wf3_finalized, d_train_baked)",NA
+preds_test,"predict(final_fit, d_test_baked)",NA
+preds,"predict(object = final_fit, new_data = tweets_baked)",NA
+tweets_baked_preds,"enrich_preds(tweets_df, preds, tweets_baked)",NA
+preds_summarized,summarise_preds(tweets_baked_preds),NA
+preds_summarized_plot,plot_preds_summarized(preds_summarized),NA
