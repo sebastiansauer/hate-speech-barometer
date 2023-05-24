@@ -1,11 +1,13 @@
 
 
-tune_my_anova <- function(wf, data ) {
+tune_my_anova <- function(wf, data, grid = NULL) {
   
   library(finetune)
   library(tidymodels)
   
   config <- config::get()
+  
+  if (is.null(grid)) grid <- config$n_grid
   
   # tune the workflow
   out <-
@@ -14,7 +16,7 @@ tune_my_anova <- function(wf, data ) {
       resamples = vfold_cv(data, v = config$v_folds, 
                            repeats = config$n_repeats, 
                            strata = c1),
-      grid = config$n_grid,
+      grid = grid,
       control = control_race(verbose = config$verbose)
     )
   
@@ -24,13 +26,15 @@ tune_my_anova <- function(wf, data ) {
 
 
 
-tune_my_grid <- function(wf, data ) {
+tune_my_grid <- function(wf, data, grid = NULL) {
   
   
   library(finetune)
   library(tidymodels)
   
   config <- config::get()
+  
+  if (is.null(grid)) grid <- config$n_grid
   
   # tune the workflow
   out <-
@@ -39,7 +43,7 @@ tune_my_grid <- function(wf, data ) {
       resamples = vfold_cv(data, v = config$v_folds, 
                            repeats = config$n_repeats, 
                            strata = c1),
-      grid = config$n_grid,
+      grid = grid,
       control = control_grid(verbose = config$verbose)
     )
   

@@ -1,18 +1,18 @@
 default:
-  n_tokens: 10
-  n_rows: 100
-  v_folds: 2   
-  n_repeats: 1 
-  verbose: TRUE
-  tinyfy: TRUE
-  n_grid: 2
-  n_workers: 3
+  n_tokens: 10  # Number of text tokens to consider, e.g. when building a text embedding model
+  n_rows: 100  # Number of rows (observations) to consider, e.g., from the train-sample, useful for shortening longish analyses during debugging
+  v_folds: 2   # Number of folds in cross validation
+  n_repeats: 1   # Number of repeats in cross validation
+  verbose: TRUE  # whether the output of functions should be verbose
+  tinyfy: TRUE  # whether the data samples should be shortened by drawing random samples, useful for shortening longish analyses during debugging
+  n_grid: 2 # number of tuning parameters to consider during tuning
+  n_workers: 3  # number of computer cores to use
   
   
 dev:
   n_tokens: 1e2
   n_rows: 100
-  v_folds: 5   
+  v_folds: 4   
   n_repeats: 1 
   verbose: TRUE
   tinyfy: TRUE

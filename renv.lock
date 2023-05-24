@@ -489,30 +489,6 @@
       ],
       "Hash": "e8a1e41acf02548751f45c718d55aa6a"
     },
-    "crew": {
-      "Package": "crew",
-      "Version": "0.2.1.9000",
-      "Source": "Repository",
-      "Repository": "https://wlandau.r-universe.dev",
-      "RemoteUrl": "https://github.com/wlandau/crew",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "572d80707dac9fbf1918e4eb1fac7b0cdd74c239",
-      "Requirements": [
-        "R",
-        "R6",
-        "getip",
-        "mirai",
-        "nanonext",
-        "processx",
-        "ps",
-        "rlang",
-        "stats",
-        "tibble",
-        "tidyselect",
-        "utils"
-      ],
-      "Hash": "19388b196996302299621fd4fdf18957"
-    },
     "curl": {
       "Package": "curl",
       "Version": "5.0.0",
@@ -961,16 +937,6 @@
         "methods"
       ],
       "Hash": "15e9634c0fcd294799e9b2e929ed1b86"
-    },
-    "getip": {
-      "Package": "getip",
-      "Version": "0.1-3",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "ceb49d19444b9b3acfce8ee34e23e2f5"
     },
     "ggplot2": {
       "Package": "ggplot2",
@@ -1508,20 +1474,6 @@
       ],
       "Hash": "18e9c28c1d3ca1560ce30658b22ce104"
     },
-    "mirai": {
-      "Package": "mirai",
-      "Version": "0.8.7.9015",
-      "Source": "Repository",
-      "Repository": "https://shikokuchuo.r-universe.dev",
-      "RemoteUrl": "https://github.com/shikokuchuo/mirai",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "7a747b68b95d70fcf6cc1327c4febd92cb14067d",
-      "Requirements": [
-        "R",
-        "nanonext"
-      ],
-      "Hash": "366efd42bef4e6e5209a10dc08a369ac"
-    },
     "mlapi": {
       "Package": "mlapi",
       "Version": "0.1.1",
@@ -1609,19 +1561,6 @@
         "methods"
       ],
       "Hash": "6dfe8bf774944bd5595785e3229d8771"
-    },
-    "nanonext": {
-      "Package": "nanonext",
-      "Version": "0.8.3.9010",
-      "Source": "Repository",
-      "Repository": "https://shikokuchuo.r-universe.dev",
-      "RemoteUrl": "https://github.com/shikokuchuo/nanonext",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "6b23e12a3e5addbef53eadeb89ff48bff00c9dae",
-      "Requirements": [
-        "R"
-      ],
-      "Hash": "91dffbff70dfd3d2f865932283859ae1"
     },
     "nlme": {
       "Package": "nlme",

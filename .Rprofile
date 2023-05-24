@@ -1,4 +1,4 @@
-source("renv/activate.R")
+# source("renv/activate.R")
 
 # select pipeline:
 Sys.setenv(TAR_PROJECT = "pipeline1")

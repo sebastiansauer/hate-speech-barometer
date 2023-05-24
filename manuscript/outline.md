@@ -171,7 +171,7 @@ Die Standardvariante findet sich im Git-Branch "main". Im Branch "dev" finden si
 - Eine Vielzahl von Tools wird verwendet, was Anforderungen an das technische Knowhow der Nutzer:innen stellt.
 - Nicht-interaktive Ansätze (wie funktionale Programmierung) ist schwieriger zu debuggen.
 - [Alternative Projekte mit ähnlicher Zielsetzung?]
-- NLP ist rechenintensiv; gerade bei großen Daten muss nach schnelleren Implementierungen gesucht werden, das ist z.B. bei `count_lexicon` der Fall (WIP).
+- NLP ist rechenintensiv; gerade bei großen Daten muss nach schnelleren Implementierungen gesucht werden, das ist z.B. bei `count_lexicon` der Fall (WIP).gg
 
 
 

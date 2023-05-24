@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.247">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2024-05-24">
+
+<title>The hate-speech barometer template: A tutorial on design and setup</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="hate-speech-barometer-ms-v01_files/libs/clipboard/clipboard.min.js"></script>
+<script src="hate-speech-barometer-ms-v01_files/libs/quarto-html/quarto.js"></script>
+<script src="hate-speech-barometer-ms-v01_files/libs/quarto-html/popper.min.js"></script>
+<script src="hate-speech-barometer-ms-v01_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="hate-speech-barometer-ms-v01_files/libs/quarto-html/anchor.min.js"></script>
+<link href="hate-speech-barometer-ms-v01_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="hate-speech-barometer-ms-v01_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="hate-speech-barometer-ms-v01_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="hate-speech-barometer-ms-v01_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="hate-speech-barometer-ms-v01_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body>
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#hate-speech-is-a-concern-for-cyber-security-social-peace-and-mental-health" id="toc-hate-speech-is-a-concern-for-cyber-security-social-peace-and-mental-health" class="nav-link" data-scroll-target="#hate-speech-is-a-concern-for-cyber-security-social-peace-and-mental-health"><span class="header-section-number">1.1</span> Hate speech is a concern for cyber security, social peace, and mental health</a></li>
+  <li><a href="#present-state-of-hate-speech-detection-research" id="toc-present-state-of-hate-speech-detection-research" class="nav-link" data-scroll-target="#present-state-of-hate-speech-detection-research"><span class="header-section-number">1.2</span> Present state of hate speech detection research</a></li>
+  <li><a href="#high-level-ideas-of-machine-learning" id="toc-high-level-ideas-of-machine-learning" class="nav-link" data-scroll-target="#high-level-ideas-of-machine-learning"><span class="header-section-number">1.3</span> High-level ideas of machine learning</a></li>
+  <li><a href="#research-gap-and-research-objectives" id="toc-research-gap-and-research-objectives" class="nav-link" data-scroll-target="#research-gap-and-research-objectives"><span class="header-section-number">1.4</span> Research gap and research objectives</a></li>
+  </ul></li>
+  <li><a href="#research-design" id="toc-research-design" class="nav-link" data-scroll-target="#research-design"><span class="header-section-number">2</span> Research design</a>
+  <ul class="collapse">
+  <li><a href="#reproducibility" id="toc-reproducibility" class="nav-link" data-scroll-target="#reproducibility"><span class="header-section-number">2.1</span> Reproducibility</a></li>
+  <li><a href="#state-of-the-art-shallow-learner-via-tidymodels" id="toc-state-of-the-art-shallow-learner-via-tidymodels" class="nav-link" data-scroll-target="#state-of-the-art-shallow-learner-via-tidymodels"><span class="header-section-number">2.2</span> State of the Art shallow learner via “Tidymodels”</a></li>
+  <li><a href="#project-management-via-targets" id="toc-project-management-via-targets" class="nav-link" data-scroll-target="#project-management-via-targets"><span class="header-section-number">2.3</span> Project management via “Targets”</a></li>
+  </ul></li>
+  <li><a href="#ml-pipeline-of-the-hate-speech-barometer" id="toc-ml-pipeline-of-the-hate-speech-barometer" class="nav-link" data-scroll-target="#ml-pipeline-of-the-hate-speech-barometer"><span class="header-section-number">3</span> ML pipeline of the hate-speech barometer</a>
+  <ul class="collapse">
+  <li><a href="#data-preprocessing" id="toc-data-preprocessing" class="nav-link" data-scroll-target="#data-preprocessing"><span class="header-section-number">3.1</span> Data preprocessing</a></li>
+  <li><a href="#modelling" id="toc-modelling" class="nav-link" data-scroll-target="#modelling"><span class="header-section-number">3.2</span> Modelling</a>
+  <ul class="collapse">
+  <li><a href="#tweet-classification" id="toc-tweet-classification" class="nav-link" data-scroll-target="#tweet-classification"><span class="header-section-number">3.2.1</span> Tweet classification</a></li>
+  <li><a href="#pipeline-results" id="toc-pipeline-results" class="nav-link" data-scroll-target="#pipeline-results"><span class="header-section-number">3.2.2</span> Pipeline results</a></li>
+  </ul></li>
+  <li><a href="#constants" id="toc-constants" class="nav-link" data-scroll-target="#constants"><span class="header-section-number">3.3</span> Constants</a></li>
+  </ul></li>
+  <li><a href="#limitations" id="toc-limitations" class="nav-link" data-scroll-target="#limitations"><span class="header-section-number">4</span> Limitations</a></li>
+  </ul>
+</nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">The hate-speech barometer template: A tutorial on design and setup</h1>
+<p class="subtitle lead">Manuscript, V01</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Sebastian Sauer, Alexander Piazza, Sigurd Schacht </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 24, 2024</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="introduction" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Introduction</h1>
+<section id="hate-speech-is-a-concern-for-cyber-security-social-peace-and-mental-health" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="hate-speech-is-a-concern-for-cyber-security-social-peace-and-mental-health"><span class="header-section-number">1.1</span> Hate speech is a concern for cyber security, social peace, and mental health</h2>
+<p>According to the United Nations, “hate speech” can be defined as offensive discourse targeting a group or an individual based on on personal characteristics such aus race, religion, or gender<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The UN amends that hate speech may threaten social peace. Although there is a lack of a widely accepted definition, the UN suggests the following definition of hate speech:</p>
+<blockquote class="blockquote">
+<p>any kind of communication in speech, writing or behaviour, that attacks or uses pejorative or discriminatory language with reference to a person or a group on the basis of who they are, in other words, based on their religion, ethnicity, nationality, race, colour, descent, gender or other identity factor.</p>
+</blockquote>
+<p>Although hate speech is nothing new, it has maybe been given a boost by the internet, which has made it possible for threats, conspiracies, and lies to travel quickly throughout the globe. Hate speech is having a visible impact on society: there are many commonalities between the January assaults on Brazil’s government buildings, and the attack on the US Capitol on January 6, 2021, including that each event happened after certain groups continuously used threatening language and false allegations against others. According to a BBC new article, online hate speech in the UK and US has risen by approx. 20% since the start of the Covid pandemic<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. More recently, Iceland’s government is the 34th to join ratification concerning the criminalization of acts of a racist and/or xenophobic natur commited through computer systems<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a>. Some researchers have even put forward the hypothesis of a causal link between social media use and offline violence <span class="citation" data-cites="cinelli_dynamics_2021">Chan, Ghose, and Seamans (<a href="#ref-chan_internet_2016" role="doc-biblioref">2016</a>)</span>. <span class="citation" data-cites="carley_social_2020">Carley (<a href="#ref-carley_social_2020" role="doc-biblioref">2020</a>)</span> summarize that hate speech constitutes a major threats not only for democracy and civil rights including freedom, but also for individual mental and psychosocial health. For example, <span class="citation" data-cites="wypych_psychological_2022">Wypych and Bilewicz (<a href="#ref-wypych_psychological_2022" role="doc-biblioref">2022</a>)</span> conducted an online survey among N=726 Ukrainian immigrants living in Poland. The authors aimed at investigating the association between exposure to hate speech, stress, and mental health. It is concluded that (prolonged) exposure to hate speech causes mental health problems of the target population. In sum, albeit a monetary or similar quantification is difficult, it can be concluded that hate speech is a substantial menace to society. It is the aim of the research presented in this paper, we fight back hate speech by fostering research endeavors for detecting hate speech.</p>
+</section>
+<section id="present-state-of-hate-speech-detection-research" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="present-state-of-hate-speech-detection-research"><span class="header-section-number">1.2</span> Present state of hate speech detection research</h2>
+<p>It is important to address hate speech to prevent violence against protected characteristics and to promote a safe and respectful online environment. However, setting limits on speech at a global scale in various languages and cultures is complex and identifying hate speech can be difficult in an online global community. One aspect that contributes to the difficulties in hate speech detection is that false negatives (missing hate speech) and false positive (false accusing of hate speech) are like Skylla and Charybdis the opposing monsters of the ethical consequences of such decision making, as opposing fundamental rights might clash<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a>. Augmenting the already high difficulties in detecting hate speech is that annotators are not necessarily reliable and a universal definition of hate speech does not exist (as to yet).</p>
+<p>Different methodologies for detecting hate speech have been developed and are in widely circulated use, comprising deep learning, shallow learning and text-mining (non machine learning) approaches. One basic textmining approach is a keyword-based method, where an ontology or dictionary is used to identify text containing potentially hateful keywords <span class="citation" data-cites="macavaney_hate_2019">(<a href="#ref-macavaney_hate_2019" role="doc-biblioref">MacAvaney et al. 2019</a>)</span>. However, simply using a hateful slur is not enough to constitute hate speech according to a study of different definitions of hate speech <span class="citation" data-cites="macavaney_hate_2019">(<a href="#ref-macavaney_hate_2019" role="doc-biblioref">MacAvaney et al. 2019</a>)</span>. More advanced techniques include machine learning models ranging from word count (e.g., TFIDF) methods to complex BERT models <span class="citation" data-cites="jahan_systematic_2021">(<a href="#ref-jahan_systematic_2021" role="doc-biblioref">Jahan and Oussalah 2021</a>)</span>. Successful detection models use more than one approach, including hybrid models that combine different techniques for more accurate results <span class="citation" data-cites="alkomah_literature_2022">(<a href="#ref-alkomah_literature_2022" role="doc-biblioref">Alkomah and Ma 2022</a>)</span>. Advancements in natural language processing (NLP) and machine learning have greatly improved the detection of hate speech. With the help of machine learning algorithms, particularly deep neural networks, NLP can be used to identify linguistic patterns and features that are indicative of hate speech <span class="citation" data-cites="jahan_systematic_2021">Velankar, Patil, and Joshi (<a href="#ref-velankar_review_2022" role="doc-biblioref">2022</a>)</span>. Various approaches have been used to detect specific features or linguistic patterns that denote hate speech in text, including rule-based classification models and, more recently, a proliferation of deep learning methods like Long Short-Term Memory networks (LSTM) and Transformer-based architectures <span class="citation" data-cites="malik_deep_2022">(<a href="#ref-malik_deep_2022" role="doc-biblioref">Malik, Pang, and Hengel 2022</a>)</span>.</p>
+<p>Whereas hate speech detection is an active field of investigation, the borders between other form of social behavior is blurry. For example, bot detection is an emerging research (and engineering) branch that has sparked a substantial number of research activities. For a research overview, see <span class="citation" data-cites="cresci_decade_2020">Cresci (<a href="#ref-cresci_decade_2020" role="doc-biblioref">2020</a>)</span>.</p>
+</section>
+<section id="high-level-ideas-of-machine-learning" class="level2" data-number="1.3">
+<h2 data-number="1.3" class="anchored" data-anchor-id="high-level-ideas-of-machine-learning"><span class="header-section-number">1.3</span> High-level ideas of machine learning</h2>
+<p>Machine learning (ML) is often considered as a subset of artificial intelligence (AI). AI is a broad field that aims to emulate human abilities, while machine learning focuses on training a machine to learn and adapt through experience <span class="citation" data-cites="angra_machine_2017">Bakshi and Bakshi (<a href="#ref-bakshi_considerations_2018" role="doc-biblioref">2018</a>)</span>. ML constitutes the intersection between statistics and computer science, and its rapid progress habe largely been driven by the ongoing reduction in computational costs <span class="citation" data-cites="jordan_machine_2015">(<a href="#ref-jordan_machine_2015" role="doc-biblioref">Jordan and Mitchell 2015</a>)</span>. In its score, ML is a new interpretation of the old quest of finding patterns in data. Correlations, which have been a subject of statistical studies at least since a century, are among its most prototypical examples. Once pattern have been found in the data, predictions can be inferred. The action of reducing a data set with many variables to a (potentially very) simple association rule, is what has been dubbed a “model” <span class="citation" data-cites="stigler_seven_2016">(<a href="#ref-stigler_seven_2016" role="doc-biblioref">Stigler 2016</a>)</span>. In fact, the usefulness of a model hinges on its ability to be reductive. To be clear, there is not causal knowledge necessary in order for some model to predict some event, which probably fuelled its widespread use given the fact that causal knowledge is very hard to gain, and surpasses a purely statistically oriented research agenda <span class="citation" data-cites="pearl2009causality">(cf. <a href="#ref-pearl2009causality" role="doc-biblioref">Pearl 2009</a>)</span>. ML algorithms of the present day are highly flexible allowing to “fit an elephant”, as von Neumann remarked to a similar matter<a href="#fn5" class="footnote-ref" id="fnref5" role="doc-noteref"><sup>5</sup></a>. On the pro side, highly flexible algorithms are able to pick up even minute and complex patterns in data, which may in many circumstances be useful as many phenomena, particularly in the social sciences, tend to behave in complex ways. However, there are drawbacks of highly flexible algorithms as well: Such algorithms tend to perceive signals where in fact there is only noise, a phenomenon well known as Pareidolia in perception research, and as overfitting in ML. To be fair, one may argue that human suffer from Pareidolia at least as much as machines do. However, countermeasures against overfitting are in place. To common procedures are (1) testing the model’s predictions on new data, data unknown to the model, and (2) “prune” or “penalize” the model for complexity, in order to strike a balance between unnecessary complexity and exaggerated parsimony <span class="citation" data-cites="james_introduction_2021">(<a href="#ref-james_introduction_2021" role="doc-biblioref">James et al. 2021</a>)</span>.</p>
+</section>
+<section id="research-gap-and-research-objectives" class="level2" data-number="1.4">
+<h2 data-number="1.4" class="anchored" data-anchor-id="research-gap-and-research-objectives"><span class="header-section-number">1.4</span> Research gap and research objectives</h2>
+<p>Given the societal impact of hate speech and the vibrating progression in machine learning, applied researchers need tools and templates to enable them to investigate social science research question. Even without being experts in machine learning, social scientists need access to the state-of-the-art tools. This research aims at supporting this by providing a template for hate speech detection. Our intended audience are social scientist with an intermediate technical knowledge in statistics and data science. Luckily, typical ML pipelines are, at least in their basic form, quite mechanical and simple, and can hence quite easily be automated. Given the prosperity and rapid progress seen in ML it would however be ill-suited to provide polished point-and-click interfaces. Rather, script based approaches to hate speech ML pipelines are of advantage as they can be adapted to novel development quickly. In fact, most novel developments in statistics and ML take place, at least in the last couple of years, in the R and Python programming languages. For that reason, we provide a template that makes use of the R language and its rich ecosystem of statistics and ML tools. Our goal is facilitate applied researchers from the social sciences to conduct their own hate speech analyses without worrying to much about the intricate technicalities of ML.</p>
+</section>
+</section>
+<section id="research-design" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Research design</h1>
+<p>This paper describes a tool that facilitates a classical ML pipeline focused on hate speech detection. Towards that end, a typical ML pipeline is provided including well-known steps such as tuning different ML algorithms and employing resampling schemes.</p>
+<section id="reproducibility" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="reproducibility"><span class="header-section-number">2.1</span> Reproducibility</h2>
+<p>Reproducibility has been dubbed a hallmark of science <span class="citation" data-cites="plesser_reproducibility_2018">(<a href="#ref-plesser_reproducibility_2018" role="doc-biblioref">Plesser 2018</a>)</span>, and the present research strongly builds on this idea. The analysis is purely based on scripts which are accessible and permissively licenced (GNU General Public Licence). Git was used as a versioning tool so that all changes to the code base can be made explicit. A package management tool (renv; <span class="citation" data-cites="ushey_renv_2023">Ushey (<a href="#ref-ushey_renv_2023" role="doc-biblioref">2023</a>)</span>) is used so that users can rest assured that the correct version of the R packages needed are in place. The train- and test-sample are openly available <span class="citation" data-cites="germeval">(cf. <a href="#ref-germeval" role="doc-biblioref">Wiegand 2019</a>)</span> so that comparing own results to the results of the tool presented here are easily achievable<a href="#fn6" class="footnote-ref" id="fnref6" role="doc-noteref"><sup>6</sup></a>.</p>
+</section>
+<section id="state-of-the-art-shallow-learner-via-tidymodels" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="state-of-the-art-shallow-learner-via-tidymodels"><span class="header-section-number">2.2</span> State of the Art shallow learner via “Tidymodels”</h2>
+<p>We used the “Tidymodels” <span class="citation" data-cites="kuhn_tidymodels_2020">(<a href="#ref-kuhn_tidymodels_2020" role="doc-biblioref">Kuhn and Wickham 2020</a>)</span> framework as an ML API. Tidymodels builds in turn on the “Tidyverse” idea <span class="citation" data-cites="wickham_welcome_2019">(<a href="#ref-wickham_welcome_2019" role="doc-biblioref">Wickham et al. 2019</a>)</span>, an opinionated approach which tries to strike a balance between being powerful enough to create high-performance models, but, on the other hand, easy to use appropriately. The authors state that its [the Tidyverse’s] “primary goal is to facilitate a conversation between a human and a computer about data” <span class="citation" data-cites="wickham_welcome_2019">(<a href="#ref-wickham_welcome_2019" role="doc-biblioref">Wickham et al. 2019, 1</a>)</span>. One advantage of any (good) approach that is widely accepted is that it provides a standard for how things should get done. Maybe the reason of the success of the Tidyverse is that it addressed key problems of data practitioners and finds sensible balances between conflicting goals. In short, the authors describe their design principles as (a) human centeredness, meaning that the software is meant for humans to be read and written, and secondly only for computers to be run, similar to literate programming <span class="citation" data-cites="knuth_literate_1984">(<a href="#ref-knuth_literate_1984" role="doc-biblioref">Knuth 1984</a>)</span>, (b) consistency, so that all functions work in a similar manner, (c) additivity, allowing to solve complex problems by breaking them down into small pieces, and (d) inclusivity, allowing the community to participate in the development. A more thorough introduction to Tidymodels is presented by <span class="citation" data-cites="silge_tidy_2022">Silge and Kuhn (<a href="#ref-silge_tidy_2022" role="doc-biblioref">2022</a>)</span>.</p>
+<p>Tidymodels support a broad variety of features which encompass recent requirements to ML software. Most prominently is the unified API for all ML algorithms and its complete coverage of all (typical) ML steps.</p>
+<p>For example, Tidymodels allows for intelligent tuning grid search methods such as simulated annealing. It features outer and inner loops in cross validation and includes the preprocessing into cross validation (such as tuning the number of components in a PCA). It provides many steps that makes data preprocessing simple such as dummyfying nominal variables, effect-coding them or over-/undersample their levels in a case of a class imbalance. Due to the rich ML ecosystem in R, from which many ML algorithms are made available in Tidymodels, users can choose from a wide array of state-of-the-art methods.</p>
+</section>
+<section id="project-management-via-targets" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="project-management-via-targets"><span class="header-section-number">2.3</span> Project management via “Targets”</h2>
+<p>It has been said that maybe the most difficult problem in computer science is naming object<a href="#fn7" class="footnote-ref" id="fnref7" role="doc-noteref"><sup>7</sup></a>. Then maybe the next most difficult thing is dealing with complexity, at least seen from a helicopter view. Given a set of 10 possible actions, where you have to pick the correct 3 to solve a problem leaves you with 120 possibilities (as combinatoric math demand). However given a of 20 actions where you again have to pick 3 confronts you with 120 possible combinations (3 out of 30: 4060). In a nutshell: there’s an explosion of complexity going on. Even a moderate increase in possible actions can increase dramatically the set of possible combinations to choose from. The bad news is there’s no way out, thank math for its crisp purity. The good news is the only thing to do is to reduce complexity to the level just low enough to just manage it. That’s where project management comes into play. Project management in software development has many aspects; one very well-known idea is “don’t repeat yourself” (DRY), which could be translated in using macros (functions) to avoid repetition in code <span class="citation" data-cites="hunt_pragmatic_2000">(<a href="#ref-hunt_pragmatic_2000" role="doc-biblioref">Hunt and Thomas 2000</a>)</span>. One key feature of R is its functional programming orientation, which allows code to be neatly composable. The project management tool used in this project is called “targets” which is build around functional programming ideas <span class="citation" data-cites="landau_targets_2021">(<a href="#ref-landau_targets_2021" role="doc-biblioref">Landau 2021</a>)</span>. It is a GNU-Make-like pipeline toolkit for R. Just like Make, Targets take care that the objects of a pipeline are updated if and only if necessary. That means if an “upstream” objects changes and if this object is an input to a downstream object, than (and only then) the downstream object needs to be updated. In the light of heavy computation costs, it can be vital to know when updating is not needed. On the other hand, it is similarly important not to miss updating if in fact it is outdated. In a nutshell, Targets as a project management toolkit (a) updates objects of a pipelines, and (b) keeps the pipeline neat and clean. An example is provided below.</p>
+</section>
+</section>
+<section id="ml-pipeline-of-the-hate-speech-barometer" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> ML pipeline of the hate-speech barometer</h1>
+<p>[…image of the pipeline]</p>
+<p>In the following, we describe the steps of the pipeline in some detail so that practitioners know what each step accomplishes. Instead of a “step” the term “target” could be used when seen from a functional programming view, focusing on the value (or output, result) of a function. For each step (or target) of the pipeline, we provide its name as used in the code along with a short description of what is achieved by the step. Where the step is complex enough to merit its own function, we provide the URL to the function<a href="#fn8" class="footnote-ref" id="fnref8" role="doc-noteref"><sup>8</sup></a>.</p>
+<section id="data-preprocessing" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="data-preprocessing"><span class="header-section-number">3.1</span> Data preprocessing</h2>
+<ul>
+<li><code>path</code>: Defines the (relative) paths to the data</li>
+<li><code>d_train</code> and <code>d_test</code>: Imports train- and test-sample (based on the paths, that’s why the object <code>path</code> is the input for this target).</li>
+<li><code>recipe2</code>, <code>recipe2_prepped</code>, <code>d_train_baked</code>, <code>d_test_baked</code>: Defines the preprocessing “recipe” of the data (prior to modelling) and applies to the data sets.</li>
+<li><code>recipe_plain</code>, <code>recipe_plain_prepped</code>: As the data preprocessing was time consuming and had no tuning parameters it was taken out from the model workflow (and the cross validation) and conducted before the modelling, in order to save computation time. During the modelling workflow, a minimal preprocessing took place.</li>
+</ul>
+</section>
+<section id="modelling" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="modelling"><span class="header-section-number">3.2</span> Modelling</h2>
+<ul>
+<li><code>model_lasso</code>, <code>model_boost</code>, <code>model_rf</code>: Three learning algorithms, i.e., the Lasso (L1 penalized regression), gradient boosting, random forests.</li>
+<li><code>wf1</code>, <code>wf2</code>, <code>wf3</code>: In Tidymodels, a workflow (wf) consists of preprocessing and the ML algorithm plus optional postprocessing. <code>wf1</code> ist the workflow consisting of the Lasso as ML algorithm; <code>wf2</code>: boosting, <code>wf3</code>: random forest. The preprocessing was identical in all three workflows.</li>
+<li><code>wf1_fit</code> etc.: The cross-validated, tuned workflow, i.,e., the fitted model, where the model parameters have been estimated</li>
+<li><code>wf1_autoplot</code> etc.: Diagrams depicting model performance (mean and sd) according to the selected performance measures (ROC-AUC in this case)</li>
+<li><code>wf_fits_l</code>, <code>wf_fits_roc</code>, <code>wf_fits_best</code>: All models stored in a list-object (<code>wf_fits_l</code>) in order to render access to the model performance simple; <code>wf_fits_roc</code> contains all the performance measures (ROC-AUC), and <code>wf_fits_best</code> identifies the model exhibiting the best fit.</li>
+<li><code>wf3_finalized</code>, <code>final_fit</code>, <code>preds_test</code>: The best performing workflow is chosen and initiated with the best performing tuning parameters (<code>wf3_finalized</code>), then, the whole train sample is fit with the best model, giving <code>final_fit</code>; on this base the test sample is predicted (<code>preds_test</code>).</li>
+</ul>
+<section id="tweet-classification" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="tweet-classification"><span class="header-section-number">3.2.1</span> Tweet classification</h3>
+<ul>
+<li><code>tweets_path</code>: A folder containing tweet data; in case of changes in the folder the target will be updated</li>
+<li><code>tweets</code>, <code>tweets_df</code>: The tweets are imported into R (<code>tweets</code>) using parallel processing due to large size; in order to save space and time, a random sample of tweets can be drawn (<code>tweets_df</code>).</li>
+<li><code>tweets_baked</code>: The tweets are subjected to the same preprocessing as the train sample.</li>
+<li><code>preds</code>, <code>tweets_baked_preds</code>: The tweets get classified (predicted) and the predictions are added as an extra column to the processsed tweets (<code>tweets_data_preds</code>).</li>
+</ul>
+</section>
+<section id="pipeline-results" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="pipeline-results"><span class="header-section-number">3.2.2</span> Pipeline results</h3>
+<ul>
+<li><p><code>preds_summarized</code>: Proportion of hate speech per Twitter account, per year, s. Figure.</p></li>
+<li><p><code>preds_summarized_plot</code>: Plot for <code>preds_summarized</code></p></li>
+</ul>
+</section>
+</section>
+<section id="constants" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="constants"><span class="header-section-number">3.3</span> Constants</h2>
+<p>Any ML pipelines depends on some constants, for organizational reasons (e.g., paths) or for model (hyper)parameters, to name two usual suspects. In this project, users can easily change their configuration in a (yaml) text file called <code>config.yml</code>. Advanced users can make use of the different branches provided by Git; whereas the main branch provides the standard pipelines, the “dev” branch offers more pipelines and experimental features.</p>
+</section>
+</section>
+<section id="limitations" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Limitations</h1>
+<p>As this project is an early development phase, there are several threads suitable for further buildup. For example, the documentation of the project is still large lacking, which renders the access more difficult for less advanced users. In addition, deep learning methods are not yet implemented (although planned). Of course, users of any technical system follow two opposing goals: feature richness and simplicity. The optimal balance between the two goals partly depends on the user’s background and goals. That said, this project draws from an array of toos which implies that the user is accostumed to these tools (R, git, github, targets, tidymodels). Limited knowledge of these tools will place a barrier to easy access to the system. Working with text data can place substantial burden on the computational resources. As to yet the present tool is not yet fully optimized to saving resources.</p>
+<p>There is a substantial number of case studies and tutorial on ML pipelines freely available on the web. However, there’s still, to the best of our knowledge no case study or template for a complex data analysis incorporating Tidymodels and Targets.</p>
+<p>In sum, it is our hope that the present research contributes to the detection of hate speech by providing a scaffold to the applied research so that he or she can focus on the phenomen of hate speech rather on the technical intricaties of ML.</p>
+
+</section>
+
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-alkomah_literature_2022" class="csl-entry" role="listitem">
+Alkomah, Fatimah, and Xiaogang Ma. 2022. <span>“A <span>Literature Review</span> of <span>Textual Hate Speech Detection Methods</span> and <span>Datasets</span>.”</span> <em>Information</em> 13 (6, 6): 273. <a href="https://doi.org/10.3390/info13060273">https://doi.org/10.3390/info13060273</a>.
+</div>
+<div id="ref-angra_machine_2017" class="csl-entry" role="listitem">
+Angra, Sheena, and Sachin Ahuja. 2017. <span>“Machine Learning and Its Applications: <span>A</span> Review.”</span> In <em>2017 <span>International Conference</span> on <span>Big Data Analytics</span> and <span>Computational Intelligence</span> (<span>ICBDAC</span>)</em>, 57–60. <span>Chirala, Andhra Pradesh, India</span>: <span>IEEE</span>. <a href="https://doi.org/10.1109/ICBDACI.2017.8070809">https://doi.org/10.1109/ICBDACI.2017.8070809</a>.
+</div>
+<div id="ref-bakshi_considerations_2018" class="csl-entry" role="listitem">
+Bakshi, Kapil, and Kiran Bakshi. 2018. <span>“Considerations for Artificial Intelligence and Machine Learning: <span>Approaches</span> and Use Cases.”</span> In <em>2018 <span>IEEE Aerospace Conference</span></em>, 1–9. <span>Big Sky, MT</span>: <span>IEEE</span>. <a href="https://doi.org/10.1109/AERO.2018.8396488">https://doi.org/10.1109/AERO.2018.8396488</a>.
+</div>
+<div id="ref-calvert_hate_1997" class="csl-entry" role="listitem">
+Calvert, C. 1997. <span>“Hate Speech and Its Harms: A Communication Theory Perspective.”</span> <em>Journal of Communication</em> 47 (1): 4–19. <a href="https://doi.org/10.1111/j.1460-2466.1997.tb02690.x">https://doi.org/10.1111/j.1460-2466.1997.tb02690.x</a>.
+</div>
+<div id="ref-carley_social_2020" class="csl-entry" role="listitem">
+Carley, Kathleen M. 2020. <span>“Social Cybersecurity: An Emerging Science.”</span> <em>Computational and Mathematical Organization Theory</em> 26 (4): 365–81. <a href="https://doi.org/10.1007/s10588-020-09322-9">https://doi.org/10.1007/s10588-020-09322-9</a>.
+</div>
+<div id="ref-chan_internet_2016" class="csl-entry" role="listitem">
+Chan, Jason, Anindya Ghose, and Robert Seamans. 2016. <span>“The <span>Internet</span> and <span>Racial Hate Crime</span>: <span>Offline Spillovers</span> from <span>Online Access</span>.”</span> <em>Management Information Systems Quarterly</em> 40 (2): 381–403. <a href="https://aisel.aisnet.org/misq/vol40/iss2/8">https://aisel.aisnet.org/misq/vol40/iss2/8</a>.
+</div>
+<div id="ref-cinelli_dynamics_2021" class="csl-entry" role="listitem">
+Cinelli, Matteo, Andraž Pelicon, Igor Mozetič, Walter Quattrociocchi, Petra Kralj Novak, and Fabiana Zollo. 2021. <span>“Dynamics of Online Hate and Misinformation.”</span> <em>Scientific Reports</em> 11 (1, 1): 22083. <a href="https://doi.org/10.1038/s41598-021-01487-w">https://doi.org/10.1038/s41598-021-01487-w</a>.
+</div>
+<div id="ref-cresci_decade_2020" class="csl-entry" role="listitem">
+Cresci, Stefano. 2020. <span>“A Decade of Social Bot Detection.”</span> <em>Communications of the ACM</em> 63 (10): 72–83. <a href="https://doi.org/10.1145/3409116">https://doi.org/10.1145/3409116</a>.
+</div>
+<div id="ref-hunt_pragmatic_2000" class="csl-entry" role="listitem">
+Hunt, Andrew, and David Thomas. 2000. <em>The Pragmatic Programmer from Journeyman to Master</em>. <span>Reading, Mass.</span>: <span>Addison-Wesley</span>.
+</div>
+<div id="ref-jahan_systematic_2021" class="csl-entry" role="listitem">
+Jahan, Md Saroar, and Mourad Oussalah. 2021. <span>“A Systematic Review of <span>Hate Speech</span> Automatic Detection Using <span>Natural Language Processing</span>.”</span> May 22, 2021. <a href="https://doi.org/10.48550/arXiv.2106.00742">https://doi.org/10.48550/arXiv.2106.00742</a>.
+</div>
+<div id="ref-james_introduction_2021" class="csl-entry" role="listitem">
+James, Gareth, Daniela Witten, Trevor Hastie, and Robert Tibshirani. 2021. <em>An Introduction to Statistical Learning: With Applications in <span>R</span></em>. Second edition. Springer Texts in Statistics. <span>New York</span>: <span>Springer</span>. <a href="https://link.springer.com/book/10.1007/978-1-0716-1418-1">https://link.springer.com/book/10.1007/978-1-0716-1418-1</a>.
+</div>
+<div id="ref-jordan_machine_2015" class="csl-entry" role="listitem">
+Jordan, M. I., and T. M. Mitchell. 2015. <span>“Machine Learning: <span>Trends</span>, Perspectives, and Prospects.”</span> <em>Science</em> 349 (6245): 255–60. <a href="https://doi.org/10.1126/science.aaa8415">https://doi.org/10.1126/science.aaa8415</a>.
+</div>
+<div id="ref-knuth_literate_1984" class="csl-entry" role="listitem">
+Knuth, D. E. 1984. <span>“Literate <span>Programming</span>.”</span> <em>The Computer Journal</em> 27 (2): 97–111. <a href="https://doi.org/10.1093/comjnl/27.2.97">https://doi.org/10.1093/comjnl/27.2.97</a>.
+</div>
+<div id="ref-kuhn_tidymodels_2020" class="csl-entry" role="listitem">
+Kuhn, Max, and Hadley Wickham. 2020. <em>Tidymodels: A Collection of Packages for Modeling and Machine Learning Using Tidyverse Principles.</em> Manual. <a href="https://www.tidymodels.org">https://www.tidymodels.org</a>.
+</div>
+<div id="ref-landau_targets_2021" class="csl-entry" role="listitem">
+Landau, William Michael. 2021. <span>“The Targets <span>R</span> Package: A Dynamic <span class="nocase">Make-like</span> Function-Oriented Pipeline Toolkit for Reproducibility and High-Performance Computing.”</span> <em>Journal of Open Source Software</em> 6 (57): 2959. <a href="https://doi.org/10.21105/joss.02959">https://doi.org/10.21105/joss.02959</a>.
+</div>
+<div id="ref-macavaney_hate_2019" class="csl-entry" role="listitem">
+MacAvaney, Sean, Hao-Ren Yao, Eugene Yang, Katina Russell, Nazli Goharian, and Ophir Frieder. 2019. <span>“Hate Speech Detection: <span>Challenges</span> and Solutions.”</span> <em>PLOS ONE</em> 14 (8): e0221152. <a href="https://doi.org/10.1371/journal.pone.0221152">https://doi.org/10.1371/journal.pone.0221152</a>.
+</div>
+<div id="ref-malik_deep_2022" class="csl-entry" role="listitem">
+Malik, Jitendra Singh, Guansong Pang, and Anton van den Hengel. 2022. <span>“Deep <span>Learning</span> for <span>Hate Speech Detection</span>: <span>A Comparative Study</span>.”</span> February 18, 2022. <a href="https://doi.org/10.48550/arXiv.2202.09517">https://doi.org/10.48550/arXiv.2202.09517</a>.
+</div>
+<div id="ref-pang_deep_2022" class="csl-entry" role="listitem">
+Pang, Guansong. 2022. <span>“Deep <span>Learning</span> for <span>Hate Speech Detection</span>: <span class="nocase">A Large-scale Empirical Evaluation</span>.”</span> <span>Medium</span>. March 7, 2022. <a href="https://towardsdatascience.com/deep-learning-for-hate-speech-detection-a-large-scale-empirical-evaluation-92831ded6bb6">https://towardsdatascience.com/deep-learning-for-hate-speech-detection-a-large-scale-empirical-evaluation-92831ded6bb6</a>.
+</div>
+<div id="ref-pearl2009causality" class="csl-entry" role="listitem">
+Pearl, Judea. 2009. <em>Causality</em>. <span>Cambridge</span>: <span>Cambridge university press</span>.
+</div>
+<div id="ref-plesser_reproducibility_2018" class="csl-entry" role="listitem">
+Plesser, Hans E. 2018. <span>“Reproducibility Vs. <span>Replicability</span>: <span>A Brief History</span> of a <span>Confused Terminology</span>.”</span> <em>Frontiers in Neuroinformatics</em> 11 (January): 76. <a href="https://doi.org/10.3389/fninf.2017.00076">https://doi.org/10.3389/fninf.2017.00076</a>.
+</div>
+<div id="ref-silge_tidy_2022" class="csl-entry" role="listitem">
+Silge, Julia, and Max Kuhn. 2022. <em>Tidy <span>Modeling</span> with <span>R</span></em>. <a href="https://www.tmwr.org/">https://www.tmwr.org/</a>.
+</div>
+<div id="ref-stigler_seven_2016" class="csl-entry" role="listitem">
+Stigler, Stephen M. 2016. <em>The Seven Pillars of Statistical Wisdom</em>. <span>Cambridge, Massachusetts</span>: <span>Harvard University Press</span>.
+</div>
+<div id="ref-ushey_renv_2023" class="csl-entry" role="listitem">
+Ushey, Kevin. 2023. <em>Renv: <span>Project</span> Environments</em>. Manual. <a href="https://rstudio.github.io/renv/">https://rstudio.github.io/renv/</a>.
+</div>
+<div id="ref-velankar_review_2022" class="csl-entry" role="listitem">
+Velankar, Abhishek, Hrushikesh Patil, and Raviraj Joshi. 2022. <span>“A <span>Review</span> of <span>Challenges</span> in <span>Machine Learning</span> Based <span>Automated Hate Speech Detection</span>.”</span> September 12, 2022. <a href="https://doi.org/10.48550/arXiv.2209.05294">https://doi.org/10.48550/arXiv.2209.05294</a>.
+</div>
+<div id="ref-wickham_welcome_2019" class="csl-entry" role="listitem">
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy McGowan, Romain François, Garrett Grolemund, et al. 2019. <span>“Welcome to the <span>Tidyverse</span>.”</span> <em>Journal of Open Source Software</em> 4 (43): 1686. <a href="https://doi.org/10.21105/joss.01686">https://doi.org/10.21105/joss.01686</a>.
+</div>
+<div id="ref-germeval" class="csl-entry" role="listitem">
+Wiegand, Michael. 2019. <span>“<span>GermEval-2018</span> Corpus (<span>DE</span>).”</span> <span>heiDATA</span>. <a href="https://doi.org/10.11588/data/0B5VML">https://doi.org/10.11588/data/0B5VML</a>.
+</div>
+<div id="ref-wypych_psychological_2022" class="csl-entry" role="listitem">
+Wypych, Michał, and Michał Bilewicz. 2022. <span>“Psychological Toll of Hate Speech: <span>The</span> Role of Acculturation Stress in the Effects of Exposure to Ethnic Slurs on Mental Health Among <span>Ukrainian</span> Immigrants in <span>Poland</span>.”</span> <em>Cultural Diversity and Ethnic Minority Psychology</em>, No Pagination Specified–. <a href="https://doi.org/10.1037/cdp0000522">https://doi.org/10.1037/cdp0000522</a>.
+</div>
+<div id="ref-yin_towards_2021" class="csl-entry" role="listitem">
+Yin, Wenjie, and Arkaitz Zubiaga. 2021. <span>“Towards Generalisable Hate Speech Detection: A Review on Obstacles and Solutions.”</span> <em>PeerJ Computer Science</em> 7 (June): e598. <a href="https://doi.org/10.7717/peerj-cs.598">https://doi.org/10.7717/peerj-cs.598</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>https://www.un.org/en/hate-speech/understanding-hate-speech/what-is-hate-speech, accessed 2024-05-24<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>https://www.bbc.com/news/newsbeat-59292509, accessed 2024-05-24<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>https://www.coe.int/en/web/cyberviolence/-/iceland-joins-the-first-additional-protocol-to-the-convention-on-cybercrime-on-countering-xenophobic-and-racist-acts-committed-through-computer-systems, accessed 2024-05-24<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>https://about.fb.com/news/2017/06/hard-questions-hate-speech/, accessed 2024-05-24<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>https://math.stackexchange.com/questions/2970219/was-von-neumann-right-that-with-four-parameters-you-can-fit-an-elephant, accessed 2024-05-24<a href="#fnref5" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>https://heidata.uni-heidelberg.de/dataset.xhtml?persistentId=doi:10.11588/data/0B5VML<a href="#fnref6" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>https://stackoverflow.com/questions/33497879/why-is-the-hardest-part-of-programming-is-naming-things<a href="#fnref7" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn8"><p>Please note that the URLs to the functions are still subject to change as the project is an early development phase.<a href="#fnref8" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

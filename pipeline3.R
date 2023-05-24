@@ -51,7 +51,6 @@ tar_option_set(packages = c("readr",
                             "emo",
                             "remoji"
                             )
-               
                #controller = crew_controller_local(workers = config$n_workers)
                )
 
@@ -91,12 +90,12 @@ list(
 
   # tune workflow 2 (XGB):
   tar_target(wf2, fit_wf(model_boost, recipe_plain)),
-  tar_target(wf2_fit, tune_my_anova(wf2, data = d_train_baked)),
+  tar_target(wf2_fit, tune_my_anova(wf2, data = d_train_baked, grid = 1)),
   tar_target(wf2_autoplot, autoplot(wf2_fit)),
 
   # tune workflow 3 (Random Forest):  
   tar_target(wf3, fit_wf(model_rf, recipe_plain)),
-  tar_target(wf3_fit, tune_my_anova(wf3, data = d_train_baked)),
+  tar_target(wf3_fit, tune_my_anova(wf3, data = d_train_baked, grid = 1)),
   tar_target(wf3_autoplot, autoplot(wf3_fit)),
 
   # find best workflow (candidate):
