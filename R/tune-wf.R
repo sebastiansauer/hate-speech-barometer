@@ -3,6 +3,7 @@
 tune_my_anova <- function(wf, data ) {
   
   library(finetune)
+  library(tidymodels)
   
   config <- config::get()
   
@@ -25,7 +26,9 @@ tune_my_anova <- function(wf, data ) {
 
 tune_my_grid <- function(wf, data ) {
   
+  
   library(finetune)
+  library(tidymodels)
   
   config <- config::get()
   
@@ -47,6 +50,9 @@ tune_my_grid <- function(wf, data ) {
 
 
 fit_wf <- function(wf_model, wf_recipe) {
+  
+  library(finetune)
+  library(tidymodels)
   
   wf <-
     workflow() %>% 
