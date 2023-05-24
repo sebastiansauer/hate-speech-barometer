@@ -13,4 +13,7 @@ tar_visnetwork(targets_only = TRUE)
 
 # build pipeline
 tar_make()
-  
+
+
+# list pipeline steps:
+tar_manifest()

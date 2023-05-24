@@ -3,20 +3,20 @@
 # load packages:
 library(targets)
 library(tarchetypes)
-library(crew)
+#library(crew)
 
-# library(tidyverse)
-# library(finetune)
-# library(tidymodels)
-# library(textrecipes)
-# library(prada)
-# library(pradadata)
-# library(datawizard)
-# library(stringr)
-# library(remoji)
-# library(emo)
-# 
-# data(sentiws)
+library(tidyverse)
+library(finetune)
+library(tidymodels)
+library(textrecipes)
+library(prada)
+library(pradadata)
+library(datawizard)
+library(stringr)
+library(remoji)
+library(emo)
+#
+data(sentiws)
 
 # read configuration from "config.yml":
 config <- config::get()
@@ -66,16 +66,17 @@ list(
   tar_target(path, set_path()),
   
   # import the train and train2 ("test") data:
-  tar_target(data_train, read_train_test_data(path$data_train)),
-  tar_target(data_train2, read_train_test_data(path$data_test)),
-  tar_target(data_tt, data_train %>% 
-               bind_rows(data_train2)),
+  tar_target(d_train, read_train_test_data(path$data_train)),
+  tar_target(d_test, read_train_test_data(path$data_test)),
+  #tar_target(data_tt, data_train %>% 
+   #            bind_rows(data_train2)),
   
   # define the recipes:
-  tar_target(recipe2, def_recipe2(data_tt)),
+  tar_target(recipe2, def_recipe2(d_train)),
   tar_target(recipe2_prepped, prep(recipe2)),
-  tar_target(d_tt_rec2_baked, bake(recipe2_prepped, new_data = NULL)),
-  tar_target(recipe_plain, def_recipe_plain(d_tt_rec2_baked)),
+  tar_target(d_train_baked,  bake(recipe2_prepped, new_data = NULL)),
+  tar_target(d_test_baked, bake(recipe2_prepped, new_data = d_test)),
+  tar_target(recipe_plain, def_recipe_plain(d_train_baked)),
   tar_target(recipe_plain_prepped, prep(recipe_plain)),
   
   # define models:
@@ -83,19 +84,19 @@ list(
   tar_target(model_boost, def_model_boost()),
   tar_target(model_rf, def_model_rf()),
 
-  # tune workflow 1:
+  # tune workflow 1 (Lasso):
   tar_target(wf1, fit_wf(model_lasso, recipe_plain)),
-  tar_target(wf1_fit, tune_my_anova(wf1, data = d_tt_rec2_baked)),
+  tar_target(wf1_fit, tune_my_anova(wf1, data = d_train_baked)),
   tar_target(wf1_autoplot, autoplot(wf1_fit)),
 
-  # tune workflow 2:
+  # tune workflow 2 (XGB):
   tar_target(wf2, fit_wf(model_boost, recipe_plain)),
-  tar_target(wf2_fit, tune_my_anova(wf2, data = d_tt_rec2_baked)),
+  tar_target(wf2_fit, tune_my_anova(wf2, data = d_train_baked)),
   tar_target(wf2_autoplot, autoplot(wf2_fit)),
 
-  # tune workflow 3:  
+  # tune workflow 3 (Random Forest):  
   tar_target(wf3, fit_wf(model_rf, recipe_plain)),
-  tar_target(wf3_fit, tune_my_anova(wf3, data = d_tt_rec2_baked)),
+  tar_target(wf3_fit, tune_my_anova(wf3, data = d_train_baked)),
   tar_target(wf3_autoplot, autoplot(wf3_fit)),
 
   # find best workflow (candidate):
@@ -108,7 +109,8 @@ list(
   
   # finalize the best wf:
   tar_target(wf3_finalized, wf3 %>% finalize_workflow(wf_fits_best)),
-  tar_target(final_fit, fit(wf3_finalized, d_tt_rec2_baked)),
+  tar_target(final_fit, fit(wf3_finalized, d_train_baked)),
+  tar_target(preds_test, predict(final_fit, d_test_baked)),
   
   # load new tweets:
   tar_files(tweets_path, path$tweets %>% list.files(full.names = TRUE, pattern = "rds$")),
