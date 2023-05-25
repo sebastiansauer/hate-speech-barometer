@@ -1,7 +1,7 @@
 ---
 title: "The hate speech barometer template: A tutorial on design and setup"
 subtitle: Manuscript, V01
-date: 2024-05-24
+date: today
 licence: CC-BY
 project:
   output-dir: docs
@@ -145,7 +145,7 @@ We used the Tidymodels framework [@kuhn_tidymodels_2020] as our ML API.
 Tidymodels in turn builds on the idea of "Tidyverse" [@wickham_welcome_2019],
 an idiosyncratic approach that tries to strike a balance between being powerful enough to produce high performance models and being easy to use. 
 Some of the packages in the Tidyverse ecosystem are among the most downloaded and relied upon R packages^[<https://www.r-pkg.org/>, accessed 2023-05-25].
-The Tidyverse authors state that the "primary goal of the Tidyverse is to facilitate a conversation between a human and a computer about data" [p. 1; @wickham_welcome_2019]. 
+The Tidyverse authors state that the "primary goal of the Tidyverse is to facilitate a conversation between a human and a computer about data" [@wickham_welcome_2019; p1]. 
 One advantage of any (good) approach that is widely accepted is that it provides a standard for how things should be done.
 Perhaps one of the main reasons for the success of the Tidyverse is that it addresses key problems faced by data practitioners and strikes a sensible balance between conflicting goals. 
 In short, the authors describe their design principles as (a) human-centeredness,
@@ -272,6 +272,8 @@ In sum, it is our hope that the present research contributes to the detection of
 
 # Appendix {.appendix}
 
+## Targets list
+
 @tbl-targets provides an overview of the targets of the analytic pipeline of the hate speech barometer.
 
 ```{r}
@@ -283,6 +285,20 @@ d <- readr::read_rds("manifest_pipeline3.rds") |>
 
 d |> gt::gt()
 ```
+
+
+
+## Reproducibility
+
+
+```{r}
+#| code-fold: true
+#| echo: false
+
+sessioninfo::session_info()
+```
+
+
 
 
 
