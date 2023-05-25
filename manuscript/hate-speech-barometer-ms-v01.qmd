@@ -100,27 +100,28 @@ in order to strike a balance between unnecessary complexity and exaggerated pars
 
 ## Research gap and research objectives
 
-Given the societal impact of hate speech and the vibrating progress in ML, 
-applied researchers are in desperate need of tools and templates to enable them to investigate social science research question.
-Even without being experts in machine learning, social scientists need access to the state-of-the-art tools.
-This research aims at supporting this by providing a template for hate speech detection.
-Our intended audience are social scientists with an intermediate technical knowledge in statistics and ML.
-Luckily, typical ML pipelines are, at least in their basic form, quite mechanical and simple,
-and can hence quite easily be automated.
-Given the prosperity and rapid progress seen in ML it would however be ill-suited to provide polished point-and-click interfaces.
-Rather, script based approaches to hate speech ML pipelines are of advantage as they can be adapted to novel development quickly.
-In fact, most novel developments in statistics and ML take place, at least in the last couple of years, in the R and Python programming languages.
-For that reason, we provide a template that makes use of the R language and its rich ecosystem of statistics and ML tools.
-Our goal is facilitate applied researchers from the social sciences to conduct their own hate speech analyses without worrying to much about the intricate technicalities of ML.
+Given the social impact of hate speech and the vibrant advances in ML, 
+applied researchers desperately need tools and templates to investigate social science research questions.
+Even without being experts in machine learning, social scientists need access to state-of-the-art tools.
+This research aims to support this by providing a template for hate speech detection.
+Our target audience is social scientists with intermediate technical knowledge in statistics and ML.
+Fortunately, typical ML pipelines, at least in their basic form, are quite mechanical and simple,
+and can therefore be automated quite easily.
+However, given the prosperity and rapid progress of ML, it would be inappropriate to provide polished point-and-click interfaces.
+Rather, script-based approaches to ML pipelines are advantageous because they can be quickly adapted to new developments.
+Indeed, most new developments in statistics and ML, at least in the last few years, have been in the R and Python programming languages.
+For this reason, we provide a template that makes use of the R language and its rich ecosystem of statistics and ML tools.
+Our aim is to make it easier for applied researchers in the social sciences to conduct their own hate speech analyses without having to worry too much about the intricate technicalities of ML.
+
 
 
 # Research design
 
 This paper describes a tool that facilitates a classical ML pipeline focused on hate speech detection.
-The source code can be accessed freely online^[<https://github.com/sebastiansauer/hate-speech-barometer>].
-Towards that end, we provide a typical ML pipeline is provided including well-known steps such as tuning different ML algorithms and employing resampling schemes.
-In addition, we made use of GNU-Make-like project management tools for increased reproducibility and usability, see details below.
-Results of the analyses as facilitated by this project could be summarized with plots such @fig-sentiplot2.
+The source code is freely available online^[<https://github.com/sebastiansauer/hate-speech-barometer>].
+To this end, we provide a typical ML pipeline, including well-known steps such as tuning different ML algorithms and applying resampling schemes.
+In addition, we have made use of GNU-Make-like project management tools to improve reproducibility and usability, see details below.
+The results of the analyses facilitated by this project could be summarised with plots such as @fig-sentiplot2.
 Next we describe the design ideas of this project.
 
 ![Hate speech proxies based on Tweets to German politicians](senti_plot2.png){#fig-sentiplot2}
@@ -130,33 +131,33 @@ Next we describe the design ideas of this project.
 
 ## Reproducibility
 
-Reproducibility has been dubbed a hallmark of science [@plesser_reproducibility_2018], 
-and the present research strongly builds on this idea.
-Our analysis is purely based on scripts which are freely accessible and permissively licenced (GNU General Public Licence).
-Git was used as a versioning tool so that all changes to the code base can be made explicit.
-A package management tool (renv; @ushey_renv_2023) is employed so that users can rest assured that the correct version of the R packages  are in place.
-The train- and test-sample are openly available [cf. @germeval] so that comparing own results to the results of the tool presented here are easily achievable^[https://heidata.uni-heidelberg.de/dataset.xhtml?persistentId=doi:10.11588/data/0B5VML].
+Reproducibility has been described as a hallmark of science [@plesser_reproducibility_2018], 
+and the present research builds strongly on this idea.
+Our analysis is based entirely on scripts that are freely available and licensed under the GNU General Public Licence.
+Git has been used as a versioning tool so that all changes to the code base can be made explicit.
+A package management tool (renv; @ushey_renv_2023) is used to ensure that users have the correct version of the R packages.
+The training and test samples are openly available [cf. @germeval], so it is easy to compare your own results with those of the tool presented here.^[https://heidata.uni-heidelberg.de/dataset.xhtml?persistentId=doi:10.11588/data/0B5VML]
 
 
 ## State-of-the-art shallow learner via "Tidymodels"
 
-We used the "Tidymodels" [@kuhn_tidymodels_2020] framework as an ML API.
-Tidymodels builds in turn on the "Tidyverse" idea [@wickham_welcome_2019],
-an opinionated approach which tries to strike a balance between being powerful enough to create high-performance models, but, on the other hand, easy to use appropriately. 
-Some of the packages of the Tidyverse ecosystem, are among the most downloaded and most depended upon R packages^[<https://www.r-pkg.org/>, accessed 2023-05-25].
-The Tidyverse authors state that the Tidyverse's "primary goal is to facilitate a conversation between a human and a computer about data" [p. 1; @wickham_welcome_2019]. 
-One advantage of any (good) approach that is widely accepted is that it provides a standard for how things should get done.
-Maybe one of the prime reason of the success of the Tidyverse is that it addressed key problems of data practitioners and finds sensible balances between conflicting goals. 
-In short, the authors describe their design principles as (a) human centeredness,
- meaning that the software is meant for humans to be read and written, 
-and secondly only for computers to be run, similar to literate programming [@knuth_literate_1984],
- (b) consistency, so that all functions work in a similar manner, 
-(c) additivity, allowing to solve complex problems by breaking them down into small pieces, and (d) inclusivity, allowing the community to participate in the development.
-A more thorough introduction to Tidymodels is presented by @silge_tidy_2022.
+We used the Tidymodels framework [@kuhn_tidymodels_2020] as our ML API.
+Tidymodels in turn builds on the idea of "Tidyverse" [@wickham_welcome_2019],
+an idiosyncratic approach that tries to strike a balance between being powerful enough to produce high performance models and being easy to use. 
+Some of the packages in the Tidyverse ecosystem are among the most downloaded and relied upon R packages^[<https://www.r-pkg.org/>, accessed 2023-05-25].
+The Tidyverse authors state that the "primary goal of the Tidyverse is to facilitate a conversation between a human and a computer about data" [p. 1; @wickham_welcome_2019]. 
+One advantage of any (good) approach that is widely accepted is that it provides a standard for how things should be done.
+Perhaps one of the main reasons for the success of the Tidyverse is that it addresses key problems faced by data practitioners and strikes a sensible balance between conflicting goals. 
+In short, the authors describe their design principles as (a) human-centeredness,
+ meaning that the software is designed to be read and written by humans, 
+and only for computers to execute, similar to literate programming [@knuth_literate_1984],
+ (b) consistency, so that all functions work in a similar way, 
+(c) additivity, so that complex problems can be solved by breaking them down into small pieces, and (d) inclusivity, so that the community can participate in development.
+A more detailed introduction to Tidymodels is given by @silge_tidy_2022.
 
-Tidymodels support a broad variety of features which encompass recent requirements to ML software. Most prominently is the unified API for all ML algorithms and its complete coverage of all (typical) ML steps.
-For example, Tidymodels allows for intelligent tuning grid search methods such as simulated annealing.
-It features outer and inner loops in cross validation and includes the preprocessing into cross validation (such as tuning the number of components in a PCA).
+Tidymodels support a wide range of features that encompass recent requirements for ML software. The most important is the unified API for all ML algorithms and the complete coverage of all (typical) ML steps.
+For example, Tidymodels allows intelligent tuning of grid search methods such as simulated annealing.
+It provides outer and inner loops in cross-validation and includes pre-processing in cross-validation (e.g. tuning the number of components in a PCA).
 It provides many steps that makes data preprocessing simple such as dummyfying nominal variables, effect-coding them or over-/undersample their levels in the case of a class imbalance. 
 Due to the rich ML ecosystem in R, from which many ML algorithms are made available in Tidymodels, users can choose from a wide array of state-of-the-art algorithms.
 
@@ -164,26 +165,26 @@ Due to the rich ML ecosystem in R, from which many ML algorithms are made availa
 
 ## Project management via "Targets"
 
-It has been said that perhaps the most difficult problem in computer science is naming objects^[<https://stackoverflow.com/questions/33497879/why-is-the-hardest-part-of-programming-is-naming-things>].
-Then maybe the next most difficult thing is dealing with complexity, at least seen from a helicopter view. 
-As an illustration of how complexity can creep in, consider the following example.
-Given a set of 10 possible actions, where you have to pick the correct 3 to solve a problem leaves you with 120 possibilities (as combinatoric math demands). 
-However, given a situation where you have to again pick 3 out of a set of 20, you are confronted you with an enormous 1120 possible combinations (3 out of 30: 4060). 
-In a nutshell: there's an explosion of complexity going on.
-Even a moderate increase in possible actions can increase dramatically the set of possible combinations to choose from.
-The bad news is there's no way out, thank math for its crisp purity. 
-The good news is the only thing to do is to reduce complexity to the level just low enough to just manage it.
-That's where project management comes into play.
-Project management in software development has many aspects;
-one very well-known idea is "don't repeat yourself" (DRY), which could be translated in using macros (functions) to avoid repetition in code [@hunt_pragmatic_2000].
-One key feature of R is its functional programming orientation, which allows code to be neatly composable.
-The project management tool used in this project is called "Targets" which is build around functional programming ideas [@landau_targets_2021].
-It is a GNU-Make-like pipeline toolkit for R.
-Just like Make, Targets take care that the objects of a pipeline are updated if and only if necessary. That means if an "upstream" objects changes and if this object is an input to a downstream object, then (and only then) the downstream object will  be updated.
-In the light of heavy computation costs, it can be vital to know when updating is not needed. 
-On the other hand, it is similarly important not to miss updating if in fact it is outdated.
-In a nutshell, Targets as a project management toolkit (a) updates objects of a pipelines, and (b) keeps the pipeline neat and clean.
-An example is provided below.
+It has been said that perhaps the hardest problem in computer science is naming objects^[<https://stackoverflow.com/questions/33497879/why-is-the-hardest-part-of-programming-is-naming-things>].
+Then perhaps the next most difficult is dealing with complexity, at least from a helicopter perspective. 
+To illustrate how complexity can creep in, consider the following example.
+Given a set of 10 possible actions, where you have to choose the right 3 to solve a problem, you are left with 120 possibilities (as combinatorial mathematics requires). 
+However, given a situation where you have to choose 3 from a set of 20 again, you are faced with an enormous 1120 possible combinations (3 out of 30: 4060). 
+In short, there's an explosion of complexity.
+Even a moderate increase in the number of possible actions can dramatically increase the number of possible combinations to choose from.
+The bad news is that there's no way out, thanks to the purity of mathematics. 
+The good news is that the only thing to do is to reduce complexity to a level that is just low enough to be manageable.
+That's where project management comes in.
+There are many aspects to project management in software development;
+A well known idea is "don't repeat yourself" (DRY), which could be translated as using macros (functions) to avoid repetition in code [@hunt_pragmatic_2000].
+A key feature of R is its functional programming orientation, which allows code to be cleanly composable.
+The project management tool used in this project is called "Targets", which is built around functional programming ideas [@landau_targets_2021].
+It is a GNU-Make like pipeline toolkit for R.
+Like Make, Targets ensures that the objects in a pipeline are updated when and only when necessary. That is, if an "upstream" object changes, and if that object is an input to a downstream object, then (and only then) will the downstream object be updated.
+Given the high cost of computation, it can be vital to know when an update is not needed. 
+On the other hand, it is equally important not to miss an update when it is actually out of date.
+In short, as a project management toolkit, Targets (a) updates objects in a pipeline, and (b) keeps the pipeline tidy.
+An example is given below.
 
 
 
