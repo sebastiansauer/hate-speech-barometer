@@ -28,7 +28,7 @@ editor_options:
 ## Link to the slides
 
 :::{.centered}
-![](img/qr-talk.png)<https://sebastiansauer.github.io/talks/wipsy-bayern-2023/#/title-slide/>
+![](img/qr-talk.png)<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/>
 
 :::
 
@@ -64,11 +64,11 @@ Link to the slides
 :::
 :::{.column width="60%"}
 
-{{< fa user-astronaut >}} AUTHOR-NAME,
+{{< fa user-astronaut >}} Sebastian Sauer,
 
 </br>
 
-📧 AUTHOR-EMAIL
+📧 sebastian.sauer(å†)hs-ansbach.dek
 :::
 ::::
 
