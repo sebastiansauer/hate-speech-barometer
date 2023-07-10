@@ -1,8 +1,9 @@
 ---
-title: "The hate speech barometer template: A tutorial on design and setup"
-subtitle: Manuscript, V01
+title: "The Social Media Hate Speech Barometer: Making of"
+subtitle: Manuscript, V02
 date: today
 licence: CC-BY
+csl: /Users/sebastiansaueruser/Google Drive/Vorlagen/Zitationsstile/apa.csl
 project:
   output-dir: docs
 
@@ -11,25 +12,29 @@ bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-se
 toc: true
 number-sections: true
 format:
-  html:
-    theme: journal
-    embed-resources: true  
+  # html:
+  #   theme: journal
+  #   embed-resources: true  
+  docx:
+    highlight-style: github
+    reference-doc: "Template BmT 2023.docx"
+    
 ---
 
 
 
 # Introduction
 
-## Hate speech is a concern for cyber security, social peace, and mental health
+## Background
 
 According to the United Nations, "hate speech" can be defined as offensive discourse
-targeting a group or an individual based on personal characteristics such aus race,
+targeting a group or an individual based on personal characteristics such as race,
 religion, or gender^[https://www.un.org/en/hate speech/understanding-hate speech/what-is-hate speech, accessed 2024-05-24]. The UN amends that hate speech may threaten social peace.
 Although there is a lack of a widely accepted definition, 
 the UN proposes the following definition of hate speech:
 
->    any kind of communication in speech, writing or behaviour, that attacks or uses pejorative or discriminatory language with reference to a person or a group on the basis of who they are, 
-in other words, based on their religion, ethnicity, nationality, race, colour, descent, gender or other identity factor.
+>    any kind of communication in speech, writing or behavior, that attacks or uses pejorative or discriminatory language with reference to a person or a group based on who they are, 
+in other words, based on their religion, ethnicity, nationality, race, color, descent, gender or other identity factor.
 
 Although hate speech is nothing new, it has been given a boost by the internet, which has made it possible for threats, conspiracies, and lies to travel quickly throughout the globe [@castano-pulgarin_internet_2021].
 Hate speech is having a visible impact on society: 
@@ -37,9 +42,9 @@ there are many commonalities between the January 2023 assaults on Brazil's gover
  and the attack on the US Capitol on January 6, 2021, 
 including that each event happened after certain groups continuously used threatening language and false allegations against others.
 According to a BBC news article, online hate speech in the UK and US has risen by approx. 20% since the start of the Covid pandemic^[<https://www.bbc.com/news/newsbeat-59292509>, accessed 2024-05-24].
-Given the surge of hate speech, defense mechanisms are on the rise too, albeit without being able to turn the tide, at least so far. For example, Iceland's government is the 34th to join ratification concerning the criminalization of acts of a racist and/or xenophobic natur commited through computer systems^[<https://www.coe.int/en/web/cyberviolence/-/iceland-joins-the-first-additional-protocol-to-the-convention-on-cybercrime-on-countering-xenophobic-and-racist-acts-committed-through-computer-systems>, accessed 2024-05-24].
+Given the surge of hate speech, defense mechanisms are on the rise too, albeit without being able to turn the tide, at least so far. For example, Iceland's government is the 34th to join ratification concerning the criminalization of acts of a racist and/or xenophobic nature committed through computer systems^[<https://www.coe.int/en/web/cyberviolence/-/iceland-joins-the-first-additional-protocol-to-the-convention-on-cybercrime-on-countering-xenophobic-and-racist-acts-committed-through-computer-systems>, accessed 2024-05-24].
 Some researchers have even put forward the hypothesis of a causal link between social media use and offline violence [@cinelli_dynamics_2021; @calvert_hate_1997; @chan_internet_2016].
-@carley_social_2020 summarizes that hate speech constitutes a major threats not only for democracy and civil rights including freedom, but also for individual mental and psychosocial health. 
+@carley_social_2020 summarizes that hate speech constitutes a major threat not only for democracy and civil rights including freedom, but also for individual mental and psychosocial health. 
 For example, @wypych_psychological_2022 conducted an online survey among N=726 Ukrainian immigrants living in Poland. 
 The authors aimed at investigating the association between exposure to hate speech, stress, and mental health. 
 They conclude that (prolonged) exposure to hate speech causes mental health problems of the target population. 
@@ -47,16 +52,16 @@ In sum, albeit a monetary or similar quantification is difficult, it can be conc
 It is the aim of the research presented in this paper to fight back hate speech by fostering research endeavors for detecting hate speech.
 
 
-## Present state of hate speech detection research
+## Related work
 
 It is important to address hate speech to prevent violence against protected characteristics and to promote a safe and respectful online environment.
 However, setting limits on speech at a global scale in various languages and cultures is complex and identifying hate speech can be difficult in an online global community.
-One aspect that contributes to the difficulties in hate speech detection is that false negatives (missing hate speech) and false positive (false accusing of hate speech) are like Skylla and Charybdis, the opposing monsters of the ethical consequences of faults and shortcomings in such decision^[cf. <https://about.fb.com/news/2017/06/hard-questions-hate speech/>, accessed 2024-05-24].
-Augmenting the already high difficulties in detecting hate speech is that annotators are not necessarily reliable and a universal definition of hate speech does not exist (as to yet).
+One aspect that contributes to the difficulties in hate speech detection is that false negatives (missing hate speech) and false positive (false accusing of hate speech) are like Scylla and Charybdis, the opposing monsters of the ethical consequences of faults and shortcomings in such decision^[cf. <https://about.fb.com/news/2017/06/hard-questions-hate-speech/>, accessed 2024-05-24].
+Augmenting the already high difficulties in detecting hate speech is that annotators are not necessarily reliable, and a universal definition of hate speech does not exist (as to yet).
 
 
 Different methodologies for detecting hate speech have been developed and are in widely circulated use, 
-comprising deep learning, shallow learning and text-mining (non machine learning) approaches. 
+comprising deep learning, shallow learning, and text-mining (non-machine learning) approaches. 
 One basic text mining approach is a keyword-based method, where an ontology or dictionary is used to identify text containing potentially hateful keywords [@macavaney_hate_2019].
 However, simply using a hateful slur is not enough to constitute hate speech according to a study of different definitions of hate speech  [@macavaney_hate_2019]. 
 More advanced techniques include machine learning models ranging from word count  methods (e.g., TFIDF) to complex BERT models [@jahan_systematic_2021].
@@ -70,7 +75,7 @@ Whereas hate speech detection is an active field of investigation, the border be
 For a research overview, see @cresci_decade_2020.
 
 
-## High-level ideas of machine learning
+## Methodology
 
 Machine learning (ML) is often considered as a subset of artificial intelligence (AI). AI is a broad field that aims to emulate human abilities, 
 while machine learning focuses on training a machine to learn and adapt through experience [@angra_machine_2017, @bakshi_considerations_2018].
@@ -81,24 +86,24 @@ Once pattern have been found in the data, predictions can be inferred.
 The action of reducing a data set with many variables to a (potentially very) simple rule, 
 is what has been dubbed a "model" [@stigler_seven_2016].
 In fact, the usefulness of a model hinges on its ability to be reductive.
-To be clear, there is not causal knowledge necessary in order for some model to predict some event,
-which probably fuelled its widespread use given the fact that causal knowledge is very hard to gain, 
+To be clear, there is not causal knowledge necessary  for some model to predict some event,
+which probably fueled its widespread use given the fact that causal knowledge is very hard to gain 
 and surpasses a purely statistically oriented research agenda [cf. @pearl2009causality].
 ML algorithms of the present day are highly flexible allowing to "fit an elephant", 
 as von Neumann remarked to a similar matter^[<https://math.stackexchange.com/questions/2970219/was-von-neumann-right-that-with-four-parameters-you-can-fit-an-elephant>, accessed 2024-05-24].
-On the pro side, highly flexible algorithms are able to pick up even minute and complex patterns in data, which may in some circumstances be useful, 
+On the pro side, highly flexible algorithms can pick up even minute and complex patterns in data, which may in some circumstances be useful, 
 as many phenomena, particularly in the social sciences, tend to behave in complex ways.
 However, there are drawbacks of highly flexible algorithms as well:
 Such algorithms tend to perceive signals where in fact there  only is noise,
-a phenomenon well known as Pareidolia in perception research, and as overfitting in ML.
+a phenomenon well-known as Pareidolia in perception research, and as overfitting in ML.
 To be fair, one may argue that human suffer from Pareidolia at least as much as machines do.
 However, countermeasures against overfitting are in place.
 Two common procedures are, described in high-level terms, (1) testing the model's predictions on new data, data unknown to the model, 
 and (2) "prune" or "penalize" the model for complexity, 
-in order to strike a balance between unnecessary complexity and exaggerated parsimony [@james_introduction_2021].
+to strike a balance between unnecessary complexity and exaggerated parsimony [@james_introduction_2021].
 
 
-## Research gap and research objectives
+## Purpose and value added of the paper
 
 Given the social impact of hate speech and the vibrant advances in ML, 
 applied researchers desperately need tools and templates to investigate social science research questions.
@@ -121,8 +126,8 @@ This paper describes a tool that facilitates a classical ML pipeline focused on 
 The source code is freely available online^[<https://github.com/sebastiansauer/hate-speech-barometer>].
 To this end, we provide a typical ML pipeline, including well-known steps such as tuning different ML algorithms and applying resampling schemes.
 In addition, we have made use of GNU-Make-like project management tools to improve reproducibility and usability, see details below.
-The results of the analyses facilitated by this project could be summarised with plots such as @fig-sentiplot2.
-Next we describe the design ideas of this project.
+The results of the analyses facilitated by this project could be summarized with plots such as @fig-sentiplot2.
+Next, we describe the design ideas of this project.
 
 ![Hate speech proxies based on Tweets to German politicians](senti_plot2.png){#fig-sentiplot2}
 
@@ -157,8 +162,8 @@ A more detailed introduction to Tidymodels is given by @silge_tidy_2022.
 
 Tidymodels support a wide range of features that encompass recent requirements for ML software. The most important is the unified API for all ML algorithms and the complete coverage of all (typical) ML steps.
 For example, Tidymodels allows intelligent tuning of grid search methods such as simulated annealing.
-It provides outer and inner loops in cross-validation and includes pre-processing in cross-validation (e.g. tuning the number of components in a PCA).
-It provides many steps that makes data preprocessing simple such as dummyfying nominal variables, effect-coding them or over-/undersample their levels in the case of a class imbalance. 
+It provides outer and inner loops in cross-validation and includes pre-processing in cross-validation (e.g., tuning the number of components in a PCA).
+It provides many steps that makes data pre-processing simple such as dummyfying nominal variables, effect-coding them or over-/undersample their levels in the case of a class imbalance. 
 Due to the rich ML ecosystem in R, from which many ML algorithms are made available in Tidymodels, users can choose from a wide array of state-of-the-art algorithms.
 
 
@@ -168,31 +173,33 @@ Due to the rich ML ecosystem in R, from which many ML algorithms are made availa
 It has been said that perhaps the hardest problem in computer science is naming objects^[<https://stackoverflow.com/questions/33497879/why-is-the-hardest-part-of-programming-is-naming-things>].
 Then perhaps the next most difficult is dealing with complexity, at least from a helicopter perspective. 
 To illustrate how complexity can creep in, consider the following example.
-Given a set of 10 possible actions, where you have to choose the right 3 to solve a problem, you are left with 120 possibilities (as combinatorial mathematics requires). 
-However, given a situation where you have to choose 3 from a set of 20 again, you are faced with an enormous 1120 possible combinations (3 out of 30: 4060). 
+Given a set of 10 possible actions, where you must choose the right 3 to solve a problem, you are left with 120 possibilities (as combinatorial mathematics requires). 
+However, given a situation where you must choose 3 from a set of 20 again, you are faced with an enormous 1120 possible combinations (3 out of 30: 4060). 
 In short, there's an explosion of complexity.
 Even a moderate increase in the number of possible actions can dramatically increase the number of possible combinations to choose from.
 The bad news is that there's no way out, thanks to the purity of mathematics. 
 The good news is that the only thing to do is to reduce complexity to a level that is just low enough to be manageable.
 That's where project management comes in.
 There are many aspects to project management in software development;
-A well known idea is "don't repeat yourself" (DRY), which could be translated as using macros (functions) to avoid repetition in code [@hunt_pragmatic_2000].
+A well-known idea is "don't repeat yourself" (DRY), which could be translated as using macros (functions) to avoid repetition in code [@hunt_pragmatic_2000].
 A key feature of R is its functional programming orientation, which allows code to be cleanly composable.
 The project management tool used in this project is called "Targets", which is built around functional programming ideas [@landau_targets_2021].
 It is a GNU-Make like pipeline toolkit for R.
 Like Make, Targets ensures that the objects in a pipeline are updated when and only when necessary. That is, if an "upstream" object changes, and if that object is an input to a downstream object, then (and only then) will the downstream object be updated.
 Given the high cost of computation, it can be vital to know when an update is not needed. 
-On the other hand, it is equally important not to miss an update when it is actually out of date.
+On the other hand, it is equally important not to miss an update when it is actually of date.
 In short, as a project management toolkit, Targets (a) updates objects in a pipeline, and (b) keeps the pipeline tidy.
 An example is given below.
 
 
 
-# ML pipeline of the hate speech barometer
+# Results
+
+## ML pipeline of the hate speech barometer
 
 @fig-pipe3 shows the pipeline of the hate speech barometer^[a "Pattern" refers to an object which is looped over; "Stems" are single-element Targets];
 an interactive version of the diagram is available online^[<https://sebastiansauer.github.io/hate-speech-barometer/tar-visnetwork-pipeline3.html>]. 
-In this graph, each node describes a target and each edge shows dependencies between the targets with the arrows heading downstream.
+In this graph, each node describes a target, and each edge shows dependencies between the targets with the arrows heading downstream.
 The appendix provides an overview in tabular form of the targets of the ML pipeline (@tbl-targets).
 
 
@@ -204,35 +211,35 @@ For each step (or target) of the pipeline, we provide its name as used in the co
 Where the step is complex enough to merit its own function, we provide the URL to the function^[Please note that the URLs to the functions are still subject to change as the project is an early development phase.].
 
 
-## Data preprocessing
+## Data pre-processing
 
 
 - `path`: Defines the (relative) paths to the data.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/set-path.R>]
 - `d_train` and `d_test`: Imports train- and test-sample (based on the paths, that's why the object `path` is the input for this target).^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/read-test-data.R>]
-- `recipe2`, `recipe2_prepped`, `d_train_baked`, `d_test_baked`: Defines the preprocessing "recipe" of the data (prior to modelling) and applies it to the data sets.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/def-recipes.R>]
-- `recipe_plain`, `recipe_plain_prepped`: As the data preprocessing was time consuming and had no tuning parameters it was taken out from the model workflow (and the cross validation) and conducted before the modelling, in order to save computation time. During the modelling workflow, a minimal preprocessing ("recipe") took place.
+- `recipe2`, `recipe2_prepped`, `d_train_baked`, `d_test_baked`: Defines the pre-processing "recipe" of the data (prior to modelling) and applies it to the data sets.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/def-recipes.R>]
+- `recipe_plain`, `recipe_plain_prepped`: As the data pre-processing was time consuming and had no tuning parameters it was taken out from the model workflow (and the cross validation) and conducted before the modelling, to save computation time. During the modelling workflow, a minimal pre-processing ("recipe") took place.
 
 
 ## Modelling
 
 
 - `model_lasso`, `model_boost`, `model_rf`: These three learning algorithms, i.e., the Lasso (L1 penalized regression), gradient boosting, random forests were computed in this analysis.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/def-models.R>]
-- `wf1`, `wf2`,  `wf3`: In Tidymodels, a workflow (wf) consists of preprocessing and the ML algorithm plus optional postprocessing. `wf1` ist the workflow consisting of the Lasso as ML algorithm; `wf2`: boosting, `wf3`: random forest. The preprocessing was identical in all three workflows.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/tune-wf.R>]
+- `wf1`, `wf2`,  `wf3`: In Tidymodels, a workflow (wf) consists of pre-processing and the ML algorithm plus optional postprocessing. `wf1` is the workflow consisting of the Lasso as ML algorithm; `wf2`: boosting, `wf3`: random forest. The pre-processing was identical in all three workflows.^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/tune-wf.R>]
 - `wf1_fit` etc.: The cross-validated, tuned workflow, i.e., the fitted model, where the model parameters have been estimated^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/tune-wf.R>]
 - `wf1_autoplot` etc.: Diagrams depicting model performance (mean and sd) according to the selected performance measures (ROC-AUC in this case)
-- `wf_fits_l`, `wf_fits_roc`, `wf_fits_best`: All models stored in a list-object (`wf_fits_l`) in order to render access to the model performance simple; `wf_fits_roc` contains all the performance measures (ROC-AUC), and `wf_fits_best` identifies the model exhibiting the best fit.
+- `wf_fits_l`, `wf_fits_roc`, `wf_fits_best`: All models stored in a list-object (`wf_fits_l`) to render access to the model performance simple; `wf_fits_roc` contains all the performance measures (ROC-AUC), and `wf_fits_best` identifies the model exhibiting the best fit.
 - `wf3_finalized`, `final_fit`, `preds_test`: The best performing workflow is chosen and initiated with the best performing tuning parameters (`wf3_finalized`), then, the whole train sample is fit with the best model, giving `final_fit`; on this base the test sample is predicted (`preds_test`).
 
 
 ### Tweet classification
 
-- `tweets_path`: A folder containing tweet data; in case of changes in the folder the target will be updated
-- `tweets`, `tweets_df`: The tweets are imported into R (`tweets`) using parallel processing due to large size; in order to save   computational time, a random sample of tweets can be drawn (`tweets_df`). 
-- `tweets_baked`: The tweets are subjected to the same preprocessing as the train sample.
-- `preds`, `tweets_baked_preds`: The tweets get classified (predicted) and the predictions are added as an extra column to the processsed tweets (`tweets_data_preds`).
+- `tweets_path`: A folder containing tweet data; in case of changes in the folder the target will be updated.
+- `tweets`, `tweets_df`: The tweets are imported into R (`tweets`) using parallel processing due to large size; to save   computational time, a random sample of tweets can be drawn (`tweets_df`). 
+- `tweets_baked`: The tweets are subjected to the same pre-processing as the train sample.
+- `preds`, `tweets_baked_preds`: The tweets get classified (predicted) and the predictions are added as an extra column to the processed tweets (`tweets_data_preds`).
 
 
-### Pipeline results
+### Pipeline outcomes«
 
 
 - `preds_summarized`: Proportion of hate speech per Twitter account, per year, s. Fig. ^[<https://github.com/sebastiansauer/hate-speech-barometer/blob/main/R/helper-funs.R>]
@@ -249,7 +256,9 @@ whereas the main branch provides the standard pipelines,
 the "dev" branch offers more pipelines and experimental features.
 
 
-# Limitations
+# Conclusions
+
+## Limitations
 
 As this project is an early development phase, there are several threads suitable for further buildup. 
 For example, the documentation of the project is still large lacking,
@@ -260,8 +269,10 @@ feature richness and simplicity.
 The optimal balance between the two goals partly depends on the user's background and goals.
 That said, this project draws from an array of tools which implies that the user is accustomed to these tools (R, Git, Github, Targets, Tidymodels) and the underlying theory.
 Limited knowledge  will place a barrier to easy access to the system.
-A frther issue is that working with text data can place substantial burden on the computational resources.
+A further issue is that working with text data can place substantial burden on the computational resources.
 As to yet the present tool is not yet fully optimized to saving resources.
+
+## Practical implications
 
 There is a substantial number of case studies and tutorial on ML pipelines freely available on the web.
 However, there's still, to the best of our knowledge, no similar or template for a complex data analysis incorporating Tidymodels and Targets or similar tools within the R programming language.
@@ -294,6 +305,7 @@ d |> gt::gt()
 ```{r}
 #| code-fold: true
 #| echo: false
+#| eval: false
 
 sessioninfo::session_info()
 ```
