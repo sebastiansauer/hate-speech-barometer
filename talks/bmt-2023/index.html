@@ -7,12 +7,14 @@
 <link href="index_files/libs/quarto-html/tippy.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/light-border.css" rel="stylesheet">
 <link href="index_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet" data-mode="light">
-<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+<link href="index_files/libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/all.css" rel="stylesheet">
+<link href="index_files/libs/quarto-contrib/fontawesome6-0.1.0/latex-fontsize.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.433">
 
   <meta name="author" content="Sebastian Sauer">
-  <meta name="dcterms.date" content="2023-07-10">
-  <title>The Social Media Hate Speech Barometer: Making of</title>
+  <meta name="dcterms.date" content="2023-07-14">
+  <title>The Social Media Hate Speech Barometer</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -320,13 +322,18 @@
       margin-right: 0; 
     }
   </style>
+  <meta name="mermaid-theme" content="neutral">
+  <script src="index_files/libs/quarto-diagram/mermaid.min.js"></script>
+  <script src="index_files/libs/quarto-diagram/mermaid-init.js"></script>
+  <link href="index_files/libs/quarto-diagram/mermaid.css" rel="stylesheet">
 </head>
 <body class="quarto-dark">
   <div class="reveal">
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">The Social Media Hate Speech Barometer: Making of</h1>
+  <h1 class="title">The Social Media Hate Speech Barometer</h1>
+  <p class="subtitle">Making-of</p>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
@@ -336,23 +343,96 @@ Sebastian Sauer
 </div>
 </div>
 
-  <p class="date">July 10, 2023</p>
+  <p class="date">July 14, 2023</p>
 </section>
 <section>
 <section id="welcome" class="title-slide slide level1 center">
 <h1>Welcome</h1>
 
 </section>
-<section id="link-to-the-slides" class="slide level2">
-<h2>Link to the slides</h2>
-<div class="centered">
-<p><img data-src="img/qr-talk.png"><a href="https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/" class="uri">https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/</a></p>
-</div>
+<section id="access" class="slide level2">
+<h2>Access</h2>
+<h3 id="slides">Slides</h3>
+<p><i class="fa-solid fa-person-chalkboard" aria-label="person-chalkboard"></i> <img data-src="img/qr-talk.png"><a href="https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/" class="uri">https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/</a></p>
+<p>–</p>
+<h3 id="project-repo">Project repo</h3>
+<p><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/sebastiansauer/hate-speech-barometer" class="uri">https://github.com/sebastiansauer/hate-speech-barometer</a></p>
 </section></section>
 <section>
-<section id="more-stuff" class="title-slide slide level1 center">
-<h1>More stuff</h1>
-<p>jdsklf</p>
+<section id="the-hate-speech-barometer" class="title-slide slide level1 center">
+<h1>The hate speech barometer</h1>
+
+</section>
+<section id="objective" class="slide level2">
+<h2>Objective</h2>
+<p><br> <br></p>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 10.0%;justify-content: center;">
+<p><i class="fa-solid fa-crosshairs fa-2xl" aria-label="crosshairs"></i></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 90.0%;justify-content: center;">
+<p>To provide applied researcher a template for speech classification</p>
+</div>
+</div>
+</div>
+</section>
+<section id="pipeline" class="slide level2">
+<h2>Pipeline</h2>
+<iframe id="pipeline" width="1000" height="700" src="img/tar-visnetwork-pipeline3.html">
+</iframe>
+</section></section>
+<section>
+<section id="design-ideas" class="title-slide slide level1 center">
+<h1>Design ideas</h1>
+
+</section>
+<section id="overview-on-design-ideas" class="slide level2">
+<h2>Overview on design ideas</h2>
+<ol type="1">
+<li><p><i class="fa-solid fa-diagram-project" aria-label="diagram-project"></i> <em>Project management</em> via <a href="https://books.ropensci.org/targets/">targets</a></p></li>
+<li><p><i class="fa-solid fa-robot" aria-label="robot"></i> <em>Machine learning</em> via <a href="https://www.tidymodels.org/">tidymodels</a> in <i class="fa-solid fa-r-project" aria-label="r-project"></i></p></li>
+<li><p><i class="fa-solid fa-r-project" aria-label="r-project"></i> <em>Collaboration platform</em> via <a href="https://github.com/sebastiansauer/hate-speech-barometer">Github</a></p></li>
+</ol>
+</section>
+<section id="targets-manages-outdated-computational-objects" class="slide level2">
+<h2><code>targets</code> manages outdated computational objects</h2>
+<div class="quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>jlksdf</strong></p>
+<p><img data-src="img/targets2.png"></p>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
+<p><strong>sdjlkf</strong></p>
+<p><img data-src="img/graph1.png"></p>
+</div>
+</div>
+</div>
+</section>
+<section id="machine-learning-via-tidymodels" class="slide level2">
+<h2>Machine learning via <code>tidymodels</code></h2>
+<p><br></p>
+<div class="cell" data-reveal="true">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+prepData[Import and &lt;/br&gt;prepare data]  --&gt; folds
+subgraph folds[for each fold do]
+  subgraph tune[for each tune value do]
+    direction TB
+    prep2[prepare data] --&gt; fit[fit model] --&gt; predict[predict&lt;/br&gt;assessment data]
+  end
+end
+folds --&gt; fit2[fit on train data]
+fit2 --&gt;pred2[predict on test data]
+
+</pre>
+</div>
+</div>
+</div>
+</div>
 </section>
 <section id="thats-all-folks" class="slide level2">
 <h2>That’s all folks! 👋</h2>
@@ -362,15 +442,15 @@ Sebastian Sauer
 <p><img data-src="img/qr-talk.png" style="width:70.0%"></p>
 <p>Link to the slides</p>
 </div><div class="column" style="width:60%;">
-<p> Sebastian Sauer,</p>
+<p><i class="fa-solid fa-user-astronaut" aria-label="user-astronaut"></i> Sebastian Sauer</p>
 <p><br></p>
-<p>📧 sebastian.sauer(å†)hs-ansbach.de</p>
+<p><i class="fa-solid fa-envelope-open" aria-label="envelope-open"></i> sebastian.sauer(å†)hs-ansbach.de</p>
 </div>
 </div>
 </section>
 <section id="technical-details" class="slide level2">
 <h2>Technical details</h2>
-<p>Date of last update: 2023-07-10 14:17:46. <br></p>
+<p>Date of last update: 2023-07-11 06:22:05. <br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code> setting  value
@@ -382,7 +462,7 @@ Sebastian Sauer
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       Europe/Berlin
- date     2023-07-10
+ date     2023-07-11
  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</code></pre>
 </div>
 </div>

@@ -1,18 +1,22 @@
 ---
-title: "The Social Media Hate Speech Barometer: Making of"
-#subtitle: "Ein sanfter Einstieg in die KI</br>CC-BY"
+title: "The Social Media Hate Speech Barometer"
+subtitle: "Making-of"
 #bibliography: library.bib
 format:
   revealjs: 
-    theme: night
+    theme: 
+      - night
+      - mytheme.scss
     menu:
       side: left
     slide-number: true
     date-format: long
+    mermaid: 
+      theme: neutral
 author: Sebastian Sauer  # your name here
 #footer: "[WiPsy.HAW.Bayern](https://sebastiansauer.github.io/talks/wipsy-bayern-2023/)"
 slide-number: true
-date: today
+date: 2023-07-14
 execute: 
   echo: false
   warning: false
@@ -25,10 +29,85 @@ editor_options:
 # Welcome
 
 
-## Link to the slides
+## Access
 
-:::{.centered}
-![](img/qr-talk.png)<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/>
+
+
+### Slides
+
+
+{{< fa person-chalkboard >}} ![](img/qr-talk.png)<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/>
+
+--
+
+### Project repo
+
+{{< fa brands github >}} <https://github.com/sebastiansauer/hate-speech-barometer>
+
+
+
+
+
+
+# The hate speech barometer
+
+
+## Objective
+
+</br> 
+</br> 
+
+
+::: {layout="[[10, 90]]"}
+{{< fa crosshairs size=2xl >}}
+
+
+
+To provide applied researcher a template for speech classification
+:::
+
+
+
+
+## Pipeline
+
+
+
+<iframe id="pipeline" 
+width="1000"
+height="700"
+src="img/tar-visnetwork-pipeline3.html">
+</iframe>
+
+
+
+# Design ideas
+
+## Overview on design ideas
+
+1. {{< fa diagram-project >}} *Project management* via [targets](https://books.ropensci.org/targets/)
+
+2. {{< fa robot >}} *Machine learning* via [tidymodels](https://www.tidymodels.org/) in {{< fa r-project >}}
+
+3. {{< fa r-project >}} *Collaboration platform* via [Github](https://github.com/sebastiansauer/hate-speech-barometer)
+
+
+
+## `targets` manages outdated computational objects
+
+
+
+
+
+:::{layout-ncol=2}
+
+### jlksdf
+
+![](img/targets2.png)
+
+### sdjlkf
+
+![](img/graph1.png)
 
 :::
 
@@ -37,11 +116,54 @@ editor_options:
 
 
 
-# More stuff
+## Machine learning standard pipeline
+
+</br>
+
+```{mermaid}
+flowchart LR
+prepData[Import and </br>prepare data]  --> folds
+subgraph folds[for each fold do]
+  subgraph tune[for each tune value do]
+    direction TB
+    prep2[prepare data] --> fit[fit model] --> predict[predict on</br>assessment data]
+  end
+end
+folds --> fit2[fit on train data]
+fit2 -->pred2[predict on test data]
+
+```
 
 
-jdsklf
 
+## `tidymodels`
+
+```{r}
+#| eval: false
+library(tidymodels)
+
+d_split <- initial_split(mtcars)
+
+ranger_recipe <- 
+  recipe(formula = am ~ ., data = mtcars) 
+
+ranger_spec <- 
+  rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
+  set_mode("classification") %>% 
+  set_engine("ranger") 
+
+rsmpl <- vfold_cv(d_train) 
+
+ranger_workflow <- 
+  workflow() %>% 
+  add_recipe(ranger_recipe) %>% 
+  add_model(ranger_spec) 
+
+ranger_tune <-
+  tune_grid(ranger_workflow, resamples = stop("add your rsample object"), grid = stop("add number of candidate points"))
+```
+
+## Collaborate via `github` 
 
 
 
@@ -64,11 +186,11 @@ Link to the slides
 :::
 :::{.column width="60%"}
 
-{{< fa user-astronaut >}} Sebastian Sauer,
+{{< fa user-astronaut >}} Sebastian Sauer
 
 </br>
 
-📧 sebastian.sauer(å†)hs-ansbach.dek
+{{< fa envelope-open >}} sebastian.sauer(å†)hs-ansbach.de
 :::
 ::::
 
