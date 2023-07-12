@@ -16,7 +16,7 @@ format:
     mermaid: 
       theme: neutral
 author: Sebastian Sauer  # your name here
-#footer: "[WiPsy.HAW.Bayern](https://sebastiansauer.github.io/talks/wipsy-bayern-2023/)"
+footer: "[hate speech barometer](https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/#/title-slide)"
 slide-number: true
 date: 2023-07-14
 execute: 
@@ -35,19 +35,26 @@ editor_options:
 
 </br>
 
+::::{.columns}
+
+:::{.column}
 ### Slides
 
 
-{{< fa person-chalkboard >}} ![](img/qr-talk.png)<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/>
+{{< fa person-chalkboard >}} [Slides](https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/#/title-slide/)
 
-</br>
 
+![](img/qr.png){width=20%} 
+:::
+
+:::{.column}
 ### Project repo
 
-{{< fa brands github >}} <https://github.com/sebastiansauer/hate-speech-barometer>
+{{< fa brands github >}} [Github repo](https://github.com/sebastiansauer/hate-speech-barometer)
+:::
 
 
-
+::::
 
 
 
