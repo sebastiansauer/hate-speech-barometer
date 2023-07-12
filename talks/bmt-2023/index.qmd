@@ -112,8 +112,6 @@ ways --> hurt --> targets --> who
 
 ## Hate speech as a menace to society
 
-</br>
-</br>
 
 ```{mermaid}
 flowchart LR
@@ -134,6 +132,9 @@ Machine learning for detecting hate speech? See @hartvigsen_toxigen_2022, @velan
 
 
 ## Overview on design ideas
+
+</br>
+</br>
 
 1. {{< fa diagram-project >}} *Project management* via [targets](https://books.ropensci.org/targets/)
 
@@ -234,8 +235,7 @@ src="img/tar-visnetwork-pipeline3.html">
 
 
 </br>
-</br>
-</br>
+
 
 
 ![](img/gitflow.png)
@@ -244,20 +244,20 @@ src="img/tar-visnetwork-pipeline3.html">
 ## That's all folks! 👋  
 
 </br>
-<URL>
+
 </br>
 
 :::: {.columns style='display: flex !important; height: 90%;'}
 
-:::{.column}
+:::{.column width="30%"}
 
 
-![](img/qr-talk.png){width="70%"}
+![](img/qr.png){width="80%"}
 
 Link to the slides
 
 :::
-:::{.column width="60%"}
+:::{.column width="70%"}
 
 {{< fa user-astronaut >}} Sebastian Sauer
 
