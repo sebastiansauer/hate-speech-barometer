@@ -32,6 +32,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+      }
+    pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+    div.sourceCode
+      { color: #f8f8f2;  }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #f8f8f2; } /* Normal */
+    code span.al { color: #f07178; background-color: #2a0f15; font-weight: bold; } /* Alert */
+    code span.an { color: #d4d0ab; } /* Annotation */
+    code span.at { color: #00e0e0; } /* Attribute */
+    code span.bn { color: #d4d0ab; } /* BaseN */
+    code span.bu { color: #abe338; } /* BuiltIn */
+    code span.cf { color: #ffa07a; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #abe338; } /* Char */
+    code span.cn { color: #ffd700; } /* Constant */
+    code span.co { color: #f8f8f2; font-style: italic; } /* Comment */
+    code span.cv { color: #ffd700; } /* CommentVar */
+    code span.do { color: #f8f8f2; } /* Documentation */
+    code span.dt { color: #ffa07a; } /* DataType */
+    code span.dv { color: #d4d0ab; } /* DecVal */
+    code span.er { color: #f07178; text-decoration: underline; } /* Error */
+    code span.ex { color: #00e0e0; font-weight: bold; } /* Extension */
+    code span.fl { color: #d4d0ab; } /* Float */
+    code span.fu { color: #ffa07a; } /* Function */
+    code span.im { color: #abe338; } /* Import */
+    code span.in { color: #d4d0ab; } /* Information */
+    code span.kw { color: #ffa07a; font-weight: bold; } /* Keyword */
+    code span.op { color: #ffa07a; } /* Operator */
+    code span.ot { color: #00e0e0; } /* Other */
+    code span.pp { color: #dcc6e0; } /* Preprocessor */
+    code span.re { color: #00e0e0; background-color: #f8f8f2; } /* RegionMarker */
+    code span.sc { color: #abe338; } /* SpecialChar */
+    code span.ss { color: #abe338; } /* SpecialString */
+    code span.st { color: #abe338; } /* String */
+    code span.va { color: #00e0e0; } /* Variable */
+    code span.vs { color: #abe338; } /* VerbatimString */
+    code span.wa { color: #dcc6e0; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -345,11 +410,6 @@ Sebastian Sauer
 
   <p class="date">July 14, 2023</p>
 </section>
-<section>
-<section id="welcome" class="title-slide slide level1 center">
-<h1>Welcome</h1>
-
-</section>
 <section id="access" class="slide level2">
 <h2>Access</h2>
 <h3 id="slides">Slides</h3>
@@ -357,14 +417,14 @@ Sebastian Sauer
 <p>–</p>
 <h3 id="project-repo">Project repo</h3>
 <p><i class="fa-brands fa-github" aria-label="github"></i> <a href="https://github.com/sebastiansauer/hate-speech-barometer" class="uri">https://github.com/sebastiansauer/hate-speech-barometer</a></p>
-</section></section>
+</section>
 <section>
 <section id="the-hate-speech-barometer" class="title-slide slide level1 center">
 <h1>The hate speech barometer</h1>
 
 </section>
-<section id="objective" class="slide level2">
-<h2>Objective</h2>
+<section id="project-objective" class="slide level2">
+<h2>Project objective</h2>
 <p><br> <br></p>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
@@ -377,41 +437,71 @@ Sebastian Sauer
 </div>
 </div>
 </section>
+<section id="definition-of-hate-speech" class="slide level2">
+<h2>Definition of <em>hate speech</em><sup>1</sup></h2>
+<div class="cell" data-reveal="true">
+<div class="cell-output-display">
+<div>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+subgraph ways[acting]
+  direction LR
+  speech
+  writing
+  behavior
+end
+subgraph hurt[that aims to hurt]
+  direction LR
+  attacks
+  lang[pejorative language]
+end
+subgraph targets[people]
+  direction LR
+  individuals
+  groups
+end
+subgraph who[based on who they are]
+  direction LR
+  race
+  gender
+  etc.
+end
+ways --&gt; hurt --&gt; targets --&gt; who
+
+</pre>
+</div>
+</div>
+</div>
+</div>
+<aside><ol class="aside-footnotes"><li id="fn1"><p>Source: United Nations</p></li></ol></aside></section>
 <section id="pipeline" class="slide level2">
 <h2>Pipeline</h2>
-<iframe id="pipeline" width="1000" height="700" src="img/tar-visnetwork-pipeline3.html">
+<iframe id="pipeline" width="1000" height="600" src="img/tar-visnetwork-pipeline3.html">
 </iframe>
-</section></section>
-<section>
-<section id="design-ideas" class="title-slide slide level1 center">
-<h1>Design ideas</h1>
-
 </section>
 <section id="overview-on-design-ideas" class="slide level2">
 <h2>Overview on design ideas</h2>
 <ol type="1">
 <li><p><i class="fa-solid fa-diagram-project" aria-label="diagram-project"></i> <em>Project management</em> via <a href="https://books.ropensci.org/targets/">targets</a></p></li>
-<li><p><i class="fa-solid fa-robot" aria-label="robot"></i> <em>Machine learning</em> via <a href="https://www.tidymodels.org/">tidymodels</a> in <i class="fa-solid fa-r-project" aria-label="r-project"></i></p></li>
-<li><p><i class="fa-solid fa-r-project" aria-label="r-project"></i> <em>Collaboration platform</em> via <a href="https://github.com/sebastiansauer/hate-speech-barometer">Github</a></p></li>
+<li><p><i class="fa-solid fa-robot" aria-label="robot"></i> <em>Machine learning</em> via <a href="https://www.tidymodels.org/">tidymodels</a> in <i class="fa-brands fa-r-project" aria-label="r-project"></i></p></li>
+<li><p><i class="fa-solid fa-handshake" aria-label="handshake"></i> <em>Collaboration platform</em> via <a href="https://github.com/sebastiansauer/hate-speech-barometer">Github</a></p></li>
 </ol>
 </section>
 <section id="targets-manages-outdated-computational-objects" class="slide level2">
-<h2><code>targets</code> manages outdated computational objects</h2>
+<h2>1. <code>targets</code> manages outdated computational objects</h2>
 <div class="quarto-layout-panel">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><strong>jlksdf</strong></p>
 <p><img data-src="img/targets2.png"></p>
 </div>
 <div class="quarto-layout-cell" style="flex-basis: 50.0%;justify-content: center;">
-<p><strong>sdjlkf</strong></p>
 <p><img data-src="img/graph1.png"></p>
 </div>
 </div>
 </div>
 </section>
-<section id="machine-learning-via-tidymodels" class="slide level2">
-<h2>Machine learning via <code>tidymodels</code></h2>
+<section id="machine-learning-standard-pipeline" class="slide level2">
+<h2>2. Machine learning standard pipeline</h2>
 <p><br></p>
 <div class="cell" data-reveal="true">
 <div class="cell-output-display">
@@ -422,11 +512,12 @@ prepData[Import and &lt;/br&gt;prepare data]  --&gt; folds
 subgraph folds[for each fold do]
   subgraph tune[for each tune value do]
     direction TB
-    prep2[prepare data] --&gt; fit[fit model] --&gt; predict[predict&lt;/br&gt;assessment data]
+    prep2[prepare data] --&gt; fit[fit model] --&gt; predict[predict on&lt;/br&gt;assessment data]
   end
 end
 folds --&gt; fit2[fit on train data]
 fit2 --&gt;pred2[predict on test data]
+pred2 --&gt; performance[assess&lt;/br&gt;performance]
 
 </pre>
 </div>
@@ -434,6 +525,34 @@ fit2 --&gt;pred2[predict on test data]
 </div>
 </div>
 </section>
+<section id="librarytidymodels" class="slide level2">
+<h2>2. <code>library(tidymodels)</code></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>d_split <span class="ot">&lt;-</span> <span class="fu">initial_split</span>(mtcars)</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a>ranger_recipe <span class="ot">&lt;-</span> <span class="fu">recipe</span>(<span class="at">formula =</span> am <span class="sc">~</span> ., <span class="at">data =</span> mtcars) </span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>ranger_spec <span class="ot">&lt;-</span> </span>
+<span id="cb1-6"><a href="#cb1-6"></a>  <span class="fu">rand_forest</span>(<span class="at">mtry =</span> <span class="fu">tune</span>(), <span class="at">min_n =</span> <span class="fu">tune</span>(), <span class="at">trees =</span> <span class="dv">1000</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7"></a>  <span class="fu">set_mode</span>(<span class="st">"classification"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="fu">set_engine</span>(<span class="st">"ranger"</span>) </span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>rsmpl <span class="ot">&lt;-</span> <span class="fu">vfold_cv</span>(d_train) </span>
+<span id="cb1-11"><a href="#cb1-11"></a></span>
+<span id="cb1-12"><a href="#cb1-12"></a>ranger_workflow <span class="ot">&lt;-</span> <span class="fu">workflow</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-13"><a href="#cb1-13"></a>  <span class="fu">add_recipe</span>(ranger_recipe) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-14"><a href="#cb1-14"></a>  <span class="fu">add_model</span>(ranger_spec) </span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a>ranger_tune <span class="ot">&lt;-</span> <span class="fu">tune_grid</span>(ranger_workflow, </span>
+<span id="cb1-17"><a href="#cb1-17"></a>                         <span class="at">resamples =</span> <span class="fu">stop</span>(<span class="st">"add your rsample object"</span>), </span>
+<span id="cb1-18"><a href="#cb1-18"></a>                         <span class="at">grid =</span> <span class="fu">stop</span>(<span class="st">"add number of candidate points"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="collaborate-via-github" class="slide level2">
+<h2>3. Collaborate via <code>git(hub)</code></h2>
+<p><br> <br> <br></p>
+
+<img data-src="img/gitflow.png" class="r-stretch"></section>
 <section id="thats-all-folks" class="slide level2">
 <h2>That’s all folks! 👋</h2>
 <p><br> <url> <br></url></p>
@@ -450,7 +569,7 @@ fit2 --&gt;pred2[predict on test data]
 </section>
 <section id="technical-details" class="slide level2">
 <h2>Technical details</h2>
-<p>Date of last update: 2023-07-11 06:22:05. <br></p>
+<p>Date of last update: 2023-07-12 08:28:04. <br></p>
 <div class="cell">
 <div class="cell-output cell-output-stdout">
 <pre><code> setting  value
@@ -462,7 +581,7 @@ fit2 --&gt;pred2[predict on test data]
  collate  en_US.UTF-8
  ctype    en_US.UTF-8
  tz       Europe/Berlin
- date     2023-07-11
+ date     2023-07-12
  pandoc   3.1.1 @ /Applications/RStudio.app/Contents/Resources/app/quarto/bin/tools/ (via rmarkdown)</code></pre>
 </div>
 </div>
@@ -470,6 +589,7 @@ fit2 --&gt;pred2[predict on test data]
 
 </div>
 </section></section>
+
     </div>
   </div>
 

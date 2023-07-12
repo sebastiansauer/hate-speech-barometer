@@ -26,19 +26,19 @@ editor_options:
 
 
 
-# Welcome
+
 
 
 ## Access
 
-
+</br>
 
 ### Slides
 
 
 {{< fa person-chalkboard >}} ![](img/qr-talk.png)<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/>
 
---
+</br>
 
 ### Project repo
 
@@ -49,10 +49,9 @@ editor_options:
 
 
 
-# The hate speech barometer
 
 
-## Objective
+## Project objective
 
 </br> 
 </br> 
@@ -68,32 +67,52 @@ To provide applied researcher a template for speech classification
 
 
 
+## Definition of *hate speech*^[Source: United Nations]
 
-## Pipeline
+</br>
+
+```{mermaid}
+flowchart LR
+subgraph ways[acting]
+  direction LR
+  speech
+  writing
+  behavior
+end
+subgraph hurt[that aims to hurt]
+  direction LR
+  attacks
+  lang[pejorative language]
+end
+subgraph targets[people]
+  direction LR
+  individuals
+  groups
+end
+subgraph who[based on who they are]
+  direction LR
+  race
+  gender
+  etc.
+end
+ways --> hurt --> targets --> who
+
+```
 
 
 
-<iframe id="pipeline" 
-width="1000"
-height="700"
-src="img/tar-visnetwork-pipeline3.html">
-</iframe>
-
-
-
-# Design ideas
 
 ## Overview on design ideas
 
 1. {{< fa diagram-project >}} *Project management* via [targets](https://books.ropensci.org/targets/)
 
-2. {{< fa robot >}} *Machine learning* via [tidymodels](https://www.tidymodels.org/) in {{< fa r-project >}}
+2. {{< fa robot >}} *Machine learning* via [tidymodels](https://www.tidymodels.org/) in {{< fa brands r-project >}}
 
-3. {{< fa r-project >}} *Collaboration platform* via [Github](https://github.com/sebastiansauer/hate-speech-barometer)
+3. {{< fa handshake >}} *Collaboration platform* via [Github](https://github.com/sebastiansauer/hate-speech-barometer)
 
 
 
-## `targets` manages outdated computational objects
+## 1. `targets` manages outdated computational objects
 
 
 
@@ -101,11 +120,9 @@ src="img/tar-visnetwork-pipeline3.html">
 
 :::{layout-ncol=2}
 
-### jlksdf
 
 ![](img/targets2.png)
 
-### sdjlkf
 
 ![](img/graph1.png)
 
@@ -116,7 +133,7 @@ src="img/tar-visnetwork-pipeline3.html">
 
 
 
-## Machine learning standard pipeline
+## 2. Machine learning standard pipeline
 
 </br>
 
@@ -131,21 +148,20 @@ subgraph folds[for each fold do]
 end
 folds --> fit2[fit on train data]
 fit2 -->pred2[predict on test data]
+pred2 --> performance[assess</br>performance]
 
 ```
 
 
 
-## `tidymodels`
+## 2. `library(tidymodels)`
 
 ```{r}
 #| eval: false
-library(tidymodels)
-
+#| echo: true
 d_split <- initial_split(mtcars)
 
-ranger_recipe <- 
-  recipe(formula = am ~ ., data = mtcars) 
+ranger_recipe <- recipe(formula = am ~ ., data = mtcars) 
 
 ranger_spec <- 
   rand_forest(mtry = tune(), min_n = tune(), trees = 1000) %>% 
@@ -154,18 +170,44 @@ ranger_spec <-
 
 rsmpl <- vfold_cv(d_train) 
 
-ranger_workflow <- 
-  workflow() %>% 
+ranger_workflow <- workflow() %>% 
   add_recipe(ranger_recipe) %>% 
   add_model(ranger_spec) 
 
-ranger_tune <-
-  tune_grid(ranger_workflow, resamples = stop("add your rsample object"), grid = stop("add number of candidate points"))
+ranger_tune <- tune_grid(ranger_workflow, 
+                         resamples = stop("add your rsample object"), 
+                         grid = stop("add number of candidate points"))
 ```
 
-## Collaborate via `github` 
 
 
+
+
+
+## 2. Machine learning pipeline
+
+
+
+<iframe id="pipeline" 
+width="1000"
+height="600"
+src="img/tar-visnetwork-pipeline3.html">
+</iframe>
+
+
+
+
+
+
+## 3. Collaborate via `git(hub)` 
+
+
+</br>
+</br>
+</br>
+
+
+![](img/gitflow.png)
 
 
 ## That's all folks! 👋  
