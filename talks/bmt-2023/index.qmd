@@ -2,6 +2,8 @@
 title: "The Social Media Hate Speech Barometer"
 subtitle: "Making-of"
 #bibliography: library.bib
+bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
+
 format:
   revealjs: 
     theme: 
@@ -99,6 +101,28 @@ ways --> hurt --> targets --> who
 
 ```
 
+
+
+## Hate speech as a menace to society
+
+</br>
+</br>
+
+```{mermaid}
+flowchart LR
+sm[Social Media] --> hs[hate speech] 
+hs --> dem[destabilizes democracy]
+hs --> civ[civil rights]
+hs --> mh[mental health]
+hs --> ph[psychosocial health]
+```
+
+
+
+@calvert_hate_1997, @cinelli_dynamics_2021, @castano-pulgarin_internet_2021, @chan_internet_2016
+
+
+Machine learning for detecting hate speech? See @hartvigsen_toxigen_2022, @velankar_review_2022 
 
 
 
@@ -238,6 +262,8 @@ Link to the slides
 
 
 
+
+
 ## Technical details
 
 Date of last update: `r Sys.time()`.
@@ -250,6 +276,8 @@ sessioninfo::platform_info()
 
 ```
 
+
+## References
 
 
 
