@@ -15,7 +15,8 @@ format:
     date-format: long
     mermaid: 
       theme: neutral
-author: Sebastian Sauer  # your name here
+author: Sebastian Sauer, Alexander Piazza, Sigurd Schacht  # your name here
+institute: University of Ansbach
 footer: "[hate speech barometer](https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/#/title-slide)"
 slide-number: true
 date: 2023-07-14
