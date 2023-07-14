@@ -32,30 +32,30 @@ editor_options:
 
 
 
-## Access
+<!-- ## Access -->
 
-</br>
+<!-- </br> -->
 
-::::{.columns}
+<!-- ::::{.columns} -->
 
-:::{.column}
-### Slides
-
-
-{{< fa person-chalkboard >}} [Slides](https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/#/title-slide/)
+<!-- :::{.column} -->
+<!-- ### Slides -->
 
 
-![](img/qr.png){width=20%} 
-:::
-
-:::{.column}
-### Project repo
-
-{{< fa brands github >}} [Github repo](https://github.com/sebastiansauer/hate-speech-barometer)
-:::
+<!-- {{< fa person-chalkboard >}} [Slides](https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023/#/title-slide/) -->
 
 
-::::
+<!-- ![](img/qr.png){width=20%}  -->
+<!-- ::: -->
+
+<!-- :::{.column} -->
+<!-- ### Project repo -->
+
+<!-- {{< fa brands github >}} [Github repo](https://github.com/sebastiansauer/hate-speech-barometer) -->
+<!-- ::: -->
+
+
+<!-- :::: -->
 
 
 
@@ -142,6 +142,9 @@ Machine learning for detecting hate speech? See @hartvigsen_toxigen_2022, @velan
 2. {{< fa robot >}} *Machine learning* via [tidymodels](https://www.tidymodels.org/) in {{< fa brands r-project >}}
 
 3. {{< fa handshake >}} *Collaboration platform* via [Github](https://github.com/sebastiansauer/hate-speech-barometer)
+
+
+
 
 
 
@@ -244,9 +247,9 @@ src="img/tar-visnetwork-pipeline3.html">
 
 ## That's all folks! 👋  
 
-</br>
 
-</br>
+
+
 
 :::: {.columns style='display: flex !important; height: 90%;'}
 
@@ -255,7 +258,7 @@ src="img/tar-visnetwork-pipeline3.html">
 
 ![](img/qr.png){width="80%"}
 
-Link to the slides
+QR-code with link to the slides
 
 :::
 :::{.column width="70%"}
@@ -265,11 +268,13 @@ Link to the slides
 </br>
 
 {{< fa envelope-open >}} sebastian.sauer(å†)hs-ansbach.de
+
+</br>
+
+<https://sebastiansauer.github.io/hate-speech-barometer/talks/bmt-2023>
+
 :::
 ::::
-
-
-
 
 
 ## Technical details
