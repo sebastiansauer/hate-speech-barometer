@@ -1,10 +1,7 @@
 
 hate_score <- function(tweets_text){
   
-  
-  # THIS FUNCTION RUNS FOR APPROX 15 HOURS ON MY MACHINE
-  
-  data("sentiws")
+  data("sentiws", package = "pradadata")
   
   # tweets_text <- tweets_text_small
   
@@ -13,27 +10,17 @@ hate_score <- function(tweets_text){
     filter(neg_pos == "neg") |>  
     pull(word)
   
+  sentiws_neg <-
+    sentiws |> 
+    filter(neg_pos == "neg")
+  
   out <-
   tweets_text %>% 
-    mutate(senti_score = map_int(text, ~ count_lexicon(txt = .x, lexicon = neg_words_vec))) |> 
+    mutate(senti_score = get_sentiment(text, 
+                                       method = "custom",
+                                       lexicon = sentiws_neg)) |> 
     select(-text)
-  
-  
-  # neg_words <-
-  #   sentiws %>% 
-  #   filter(neg_pos == "neg") %>% 
-  #   select(word)
-  
-  # out <-
-  #   tweets_text %>% 
-  #   select(text, id) %>% 
-  #   mutate(id = factor(id)) %>% 
-  #   unnest_tokens(word, text) %>% 
-  #   inner_join(neg_words) %>% 
-  #   group_by(id) %>%
-  #   summarise(n = n())
-   # mutate(senti_score = map_int(text, ~ count_lexicon(txt = text, lexicon = neg_words)))
-  
+
   return(out)
   
   

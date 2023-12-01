@@ -1,4 +1,6 @@
-# pipeline2
+# pipeline2: explorative textmining (unsupervised) of tweets
+
+print("Pipeline 2")
 
 
 library(targets)
@@ -44,7 +46,7 @@ list(
   tar_target(tweets_text_small, tweets_text %>% slice_head(n = 100)),
   
   # compute hate score per tweet:
-  tar_target(senti_score, hate_score(tweets_text), packages = c("prada", "pradadata", "tidytext")),
+  tar_target(senti_score, hate_score(tweets_text), packages = c("prada", "pradadata", "tidytext", "syuzhet")),
   
   # compute table with results 1:
   tar_target(senti_tab, senti_score_tab(senti_score, group_vars = c("id", "year")), packages = "stringr"),

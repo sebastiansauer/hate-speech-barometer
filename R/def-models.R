@@ -1,4 +1,4 @@
-def_model1 <- function() {
+def_model_lasso <- function() {
   
   logistic_reg(penalty = tune(), mixture = 1) %>%
     set_mode("classification") %>%
@@ -9,9 +9,8 @@ def_model1 <- function() {
 
 def_model_logistic <- function() {
   
-  logistic_reg(penalty = tune(), mixture = 1) %>%
-    set_mode("classification") %>%
-    set_engine("glmnet")
+  logistic_reg() %>%
+    set_mode("classification") 
   
 }
 
@@ -32,7 +31,7 @@ def_model_boost <- function() {
 
 def_model_rf <- function() {
   
-  rand_forest(mtry = tune(),
+  rand_forest(
              trees = 2000,
              mode = "classification")
 }

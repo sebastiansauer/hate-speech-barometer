@@ -7,7 +7,7 @@
 
 
 
-def_recipe1 <- function(data_train) {
+def_recipe_tfidf <- function(data_train) {
   
   config <- config::get()
   
@@ -35,12 +35,17 @@ def_recipe2 <- function(data_train) {
   config <- config::get()
   
   # import dictionaries:
-  schimpfwoerter <- data_read("https://raw.githubusercontent.com/sebastiansauer/pradadata/master/data-raw/schimpfwoerter.csv")
+  # schimpfwoerter <- data_read("https://raw.githubusercontent.com/sebastiansauer/pradadata/master/data-raw/schimpfwoerter.csv")
   data("sentiws", package = "pradadata")
   data("wild_emojis", package = "pradadata")
+  data("schimpfwoerter", package = "pradadata")
+  
+  # preprocess dictionaries:
+  sentiws$word <- tolower(sentiws$word)
+  schimpfwoerter$value <- 1
   
   
-  # reduce data to 3 columns:
+  # reduce data to 3 columns for efficiency:
   d_reduced <- data_train %>% select(text, c1, id)
   
   # define preprocessing of data:
@@ -56,13 +61,17 @@ def_recipe2 <- function(data_train) {
     step_text_normalization(text) %>%
     
     # count words with emotional connotation:
-    step_mutate(emo_count = map_int(text, ~ count_lexicon_vec(.x, tolower(sentiws$word)))) %>% 
+    step_mutate(emo_count = get_sentiment(text,
+                                          method = "custom",
+                                          lexicon = sentiws)) %>% 
     
     # count abusive words:
-    step_mutate(schimpf_count = map_int(text, ~ count_lexicon_vec(.x, tolower(schimpfwoerter$word)))) %>%  
+    step_mutate(schimpf_count = get_sentiment(text,
+                                              method = "custom",
+                                              lexicon = schimpfwoerter)) %>% 
     
     # count emojis:
-    step_mutate(emoji_count =  map_int(text, ji_count)) %>%   # package "emo"
+    step_mutate(emoji_count =  str_count(text, "\\p{So}")) %>%   # code for Emojis/Sonderzeichen
     
     # copy text column:
     step_mutate(text_copy = text) %>% 
@@ -108,6 +117,7 @@ def_recipe2 <- function(data_train) {
 
 def_recipe_plain <- function(data_train) {
   
+ 
   recipe_def <-
     recipe(c1 ~ ., data = data_train) %>%  
     update_role(id, new_role = "id") 
@@ -117,4 +127,35 @@ def_recipe_plain <- function(data_train) {
 }
 
 
+
+
+# recipe word-vecs --------------------------------------------------------
+
+
+def_recipe_wordvec <- function(data_train) {
   
+  config <- config::get()
+  
+  # reduce data to 3 columns for efficiency:
+  d_reduced <- data_train %>% select(text, c1, id)
+  
+  
+  # import word embeddings:
+  wiki_de_embeds <- arrow::read_feather(file = set_path()$wordvec)
+  names(wiki_de_embeds)[1] <- "word"
+  wiki <- as_tibble(wiki_de_embeds)                                      
+  
+  # define recipe based on (German) wordvectors:
+  rec_def <- 
+    rec1 <-
+    recipe(c1 ~ ., data = d_reduced) |> 
+    update_role(id, new_role = "id")  |> 
+    step_tokenize(text) |> 
+    step_stopwords(text, language = "de", stopword_source = "snowball") |> 
+    step_word_embeddings(text,
+                         embeddings = wiki,
+                         aggregation = "mean") 
+  
+  return(rec_def)
+  
+}

@@ -10,18 +10,18 @@ default:
   
   
 dev:
-  n_tokens: 1e2
+  n_tokens: 100
   n_rows: 100
   v_folds: 4   
   n_repeats: 1 
   verbose: TRUE
   tinyfy: TRUE
-  n_grid: 5
+  n_grid: 1
   n_workers: 3  
   
   
 production:
-  n_tokens: 1e2
+  n_tokens: Inf
   n_rows: Inf
   v_folds: 10
   n_repeats: 2

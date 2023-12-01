@@ -1,4 +1,6 @@
-# this is "_targets.R" file
+print('this is _targets.R file, pipeline3')
+
+# pipeline3: workflow map with multiples recipes/models, predicting tweets (as test set), enhanced by anova race tuning
 
 # load packages:
 library(targets)
@@ -49,7 +51,7 @@ tar_option_set(packages = c("readr",
                             "remoji",
                             "finetune",
                             "emo",
-                            "remoji"
+                            "syuzhet"
                             )
                #controller = crew_controller_local(workers = config$n_workers)
                )
@@ -67,14 +69,14 @@ list(
   # import the train and train2 ("test") data:
   tar_target(d_train, read_train_test_data(path$data_train)),
   tar_target(d_test, read_train_test_data(path$data_test)),
-  #tar_target(data_tt, data_train %>% 
-   #            bind_rows(data_train2)),
-  
+
   # define the recipes:
-  tar_target(recipe2, def_recipe2(d_train)),
-  tar_target(recipe2_prepped, prep(recipe2)),
-  tar_target(d_train_baked,  bake(recipe2_prepped, new_data = NULL)),
-  tar_target(d_test_baked, bake(recipe2_prepped, new_data = d_test)),
+  tar_target(recipe_plain, def_recipe_plain(data_train)),
+  tar_target(recipe_wordvec, def_recipe_wordvec(data_train)),
+  
+  tar_target(recipe_wordvec_prepped, prep(recipe_wordvec)),
+  tar_target(d_train_baked,  bake(recipe_wordvec_prepped, new_data = NULL)),
+  tar_target(d_test_baked, bake(recipe_wordvec_prepped, new_data = d_test)),
   tar_target(recipe_plain, def_recipe_plain(d_train_baked)),
   tar_target(recipe_plain_prepped, prep(recipe_plain)),
   
@@ -90,12 +92,12 @@ list(
 
   # tune workflow 2 (XGB):
   tar_target(wf2, fit_wf(model_boost, recipe_plain)),
-  tar_target(wf2_fit, tune_my_anova(wf2, data = d_train_baked, grid = 1)),
+  tar_target(wf2_fit, tune_my_anova(wf2, data = d_train_baked, grid = config$n_grid)),
   tar_target(wf2_autoplot, autoplot(wf2_fit)),
 
   # tune workflow 3 (Random Forest):  
   tar_target(wf3, fit_wf(model_rf, recipe_plain)),
-  tar_target(wf3_fit, tune_my_anova(wf3, data = d_train_baked, grid = 1)),
+  tar_target(wf3_fit, tune_my_anova(wf3, data = d_train_baked, grid = config$n_grid)),
   tar_target(wf3_autoplot, autoplot(wf3_fit)),
 
   # find best workflow (candidate):
@@ -125,7 +127,7 @@ list(
                group_by(id)),
   
   # bake each chunk individually:
-  tar_target(tweets_baked, bake(recipe2_prepped, new_data = tweets_df)),
+  tar_target(tweets_baked, bake(recipe_wordvec_prepped, new_data = tweets_df)),
   
   # predict tweets (using the best workflow):
   tar_target(preds, predict(object = final_fit, new_data = tweets_baked)),
