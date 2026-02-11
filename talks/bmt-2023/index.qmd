@@ -3,7 +3,6 @@ title: "The Social Media Hate Speech Barometer"
 subtitle: "Making-of"
 #bibliography: library.bib
 bibliography: /Users/sebastiansaueruser/Google Drive/Literatur/refmgt/library-ses.bib
-
 format:
   revealjs: 
     theme: 

@@ -91,7 +91,7 @@ list(
   
   # plot the performance metrics:
   tar_target(set_autoplot, autoplot(set_fit)),  # 10 GB!
-  tar_target(wf_metrics, set_fit)
+  tar_target(wf_metrics, collect_metrics(set_fit))
 )
   
   
